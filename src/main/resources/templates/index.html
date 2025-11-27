@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- подключение стилей bootstrap -->
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<header>
+  <h1>Приют для животных ""</h1>
+  <nav>
+    <ul>
+      <li><a href="#about">О нас</a></li>
+      <li><a href="#animals">Наши питомцы</a></li>
+      <li><a href="#how-to-help">Как помочь</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section id="about">
+    <h2>О нас</h2>
+    <p>Краткая история приюта и наша миссия.</p>
+  </section>
+
+  <section id="animals">
+    <h2>Наши питомцы</h2>
+    <p>Фотографии и описания животных, которые ищут дом.</p>
+    <!-- Здесь будут карточки животных с фото, именем и описанием -->
+    <th:block th:each="animal : ${listAnimals}">
+    <div class="pet-card">
+      <img th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
+      <h3>[[${animal.nickname}]]</h3>
+      <p>[[${animal.getTypeBreed()}]]</p>
+      <a href="#">Узнать больше</a>
+    </div>
+    </th:block>
+  </section>
+
+  <section id="how-to-help">
+    <h2>Как помочь</h2>
+    <p>Вы можете помочь нам, сделав пожертвование, став волонтером или предоставив корм и медикаменты.</p>
+    <ul>
+      <li><a href="#">Сделать пожертвование</a></li>
+      <li><a href="#">Стать волонтером</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p id="contact">Свяжитесь с нами по телефону: +7 (XXX) XXX-XX-XX.</p>
+</footer>
+
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
