@@ -50,107 +50,18 @@ public class AnimalController {
         return "animals";
     }
 
-    @GetMapping("/animals/new")
-    public String showNewForm(Model model) {
-        List<City> listCities = cityService.listAll();
-        List<User> listUsers = userService.listAll();
-        List<Type> listTypes = typeService.listAll();
-        List<Integer> listBreeds = new ArrayList<Integer>();
-        listBreeds.add(1);
-        listBreeds.add(2);
-        model.addAttribute("animalCreateData", new AnimalCreateData());
-        model.addAttribute("listCities", listCities);
-        model.addAttribute("listUsers", listUsers);
-        model.addAttribute("listTypes", listTypes);
-        model.addAttribute("listBreeds", listBreeds);
-        model.addAttribute("pageTitle", "Adding a new pet:");
-        return "animal_form";
-    }
-
-    @PostMapping("/animals/save")
-    public String saveAnimal(AnimalCreateData animalCreateData, RedirectAttributes ra, Model model,
-                             @RequestParam("photo") MultipartFile imageData) throws IOException {
-
-        // преобразование полученных данных в формат БД
-        String imageDataAsString= Base64
-                .getEncoder()
-                .encodeToString(
-                        imageData.getBytes()
-                );
-
-        try {
-            Animal animal = new Animal();
-
-            if (animalCreateData.getId() != null) {
-                animal = animalService.get(animalCreateData.getId());
-            }
-
-            // заполнили данные животного
-            animal.setAge(animalCreateData.getAge());
-            animal.setNickname(animalCreateData.getNickname());
-            animal.setDescription(animalCreateData.getDescription());
-            animal.setPhoto(imageDataAsString);
-
-            // для пользователя заполнили только id и установим данные пользователя в заказе
-            User animalUser = userService.get(animalCreateData.getUserId());
-            animal.setUser(animalUser);
-
-            City animalCity = cityService.get(Integer.parseInt(animalCreateData.getCityId()));
-            animal.setCity(animalCity);
-
-            Type animalType = typeService.get(Integer.parseInt(animalCreateData.getTypeId()));
-            animal.setType(animalType);
-
-            // сохранить в БД
-            animalService.save(animal);
-            ra.addFlashAttribute("message", "The pet was successfully added!");
-            return "redirect:/animals";
-        } catch (AnimalNotFoundException ex) {
-            ra.addFlashAttribute("message", "The Pet with this ID not found!");
-            return "redirect:/animals/new";
-        } catch (DataAccessException e) {
-            ra.addFlashAttribute("message", "A guardian with this ID was not found.!");
-            return "redirect:/animals/new";
-        } catch (UserNotFoundException e) {
-            ra.addFlashAttribute("message", "A guardian with this ID was not found.!");
-            return "redirect:/animals/new";
-        }
-    }
-
-    @GetMapping("/animals/edit/{id}")
+    @GetMapping("/animals/current/{id}")
     public String showEditForm(@PathVariable("id") Integer id, Model model,
                                RedirectAttributes ra) {
         try {
-            Animal animal = animalService.get(id);
-
-            AnimalCreateData animalCreateData = new AnimalCreateData();
-            animalCreateData.setDescription(animal.getDescription());
-            animalCreateData.setId(animal.getId());
-            animalCreateData.setAge(animal.getAge());
-            animalCreateData.setNickname(animal.getNickname());
-            animalCreateData.setUserId(animal.getUser().getId());
-            animalCreateData.setCityId(Integer.toString(animal.getCity().getId()));
-            animalCreateData.setTypeId(Integer.toString(animal.getType().getId()));
-
-            model.addAttribute("animalCreateData", animalCreateData);
+            Animal currentAnimal = animalService.get(id);
+            model.addAttribute("currentAnimal", currentAnimal);
             model.addAttribute("pageTitle",
                     "Editing a pet with ID: " + id + ":");
-            return "animal_form";
+            return "current_animal";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/animals";
         }
-    }
-
-    @GetMapping("/animals/delete/{id}")
-    public String deleteAnimal(@PathVariable("id") Integer id, RedirectAttributes ra) {
-        try {
-            animalService.delete(id);
-            ra.addFlashAttribute("message", "The Pet with ID " + id +
-                    "has been deleted.");
-        } catch (AnimalNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
-        }
-        return "redirect:/animals";
     }
 }

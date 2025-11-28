@@ -1,6 +1,7 @@
 package org.top.animalshelterwebapp.animal;
 
 import jakarta.persistence.*;
+import org.top.animalshelterwebapp.card.Card;
 import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.user.User;
@@ -45,6 +46,11 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
     private Type type;
+
+    // связь с сущность (таблицей) корзины
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private Card card;
 
     public String getPhoto() {
         return photo;
@@ -127,7 +133,19 @@ public class Animal {
         this.type = type;
     }
 
-    public Type getType() {
-        return type;
+    public String getType() {
+        return type.getTitle();
+    }
+
+    public String getBreed() {
+        return type.getBreed();
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 }

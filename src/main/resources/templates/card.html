@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Избранное</title>
+  <!-- подключение стилей bootstrap -->
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<section>
+  <th:block th:each="animal : ${listAnimals}">
+    <div style="display: flex; justify-content: space-between; flex-direction: row;">
+      <div class="card text-white bg-dark mb-3" style="width: 18rem;">
+        <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
+        <div class="card-body">
+          <h3 class="card-title">[[${animal.nickname}]]</h3>
+          <p class="card-text">[[${animal.getTypeBreed()}]]</p>
+        </div>
+      </div>
+    </div>
+  </th:block>
+</section>
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

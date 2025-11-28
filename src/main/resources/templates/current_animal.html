@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${pageTitle}]]</title>
+  <!-- подключение стилей bootstrap -->
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="card text-white bg-dark mb-3" style="width: 58rem;">
+  <h2 class="card-title">[[${currentAnimal.nickname}]]</h2>
+  <img style="width: 500px;" class="card-img-top" th:src="@{'data:image/jpeg;base64,' + *{currentAnimal.photo}}">
+  <div class="card-body">
+    <div class="d-flex">
+      <label>Категория: </label>
+      <p class="card-text">[[${currentAnimal.getType()}]]</p>
+    </div>
+    <div class="d-flex">
+      <label>Порода: </label>
+      <p class="card-text">[[${currentAnimal.getBreed()}]]</p>
+    </div>
+    <div class="d-flex">
+      <label>Возраст: </label>
+      <p class="card-text">[[${currentAnimal.age}]]</p>
+    </div>
+    <p class="card-text">[[${currentAnimal.description}]]</p>
+    <div class="d-flex">
+      <label>Город: </label>
+      <p class="card-text">[[${currentAnimal.getCityTitle()}]]</p>
+    </div>
+    <div class="d-flex">
+      <label>Информация об опекуне: </label>
+      <p class="card-text">[[${currentAnimal.getUserName()}]]</p>
+    </div>
+  </div>
+</div>
+<div>
+  <a class="h3" th:href="@{/animals}">Вернуться</a>
+  <a class="h3" th:href="@{'/myCard/' + ${currentAnimal.id}}">Добавить в избранное</a>
+</div>
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript">
+  function cancelForm() {
+      window.location = "[[@{/animals}]]";
+  }
+</script>
+</body>
+</html>

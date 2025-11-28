@@ -9,15 +9,16 @@
 <body>
 <section>
     <h2>Наши питомцы</h2>
-    <p>Фотографии и описания животных, которые ищут дом.</p>
     <!-- Здесь будут карточки животных с фото, именем и описанием -->
     <th:block th:each="animal : ${listAnimals}">
-        <div class="card text-white bg-dark mb-3" style="width: 18rem; display: flex">
-            <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
-            <div class="card-body">
-                <h3 class="card-title">[[${animal.nickname}]]</h3>
-                <p class="card-text">[[${animal.getTypeBreed()}]]</p>
-                <a href="#" class="btn btn-primary">Узнать больше</a>
+        <div style="display: flex; justify-content: space-between; flex-direction: row;">
+            <div class="card text-white bg-dark mb-3" style="width: 18rem;">
+                <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
+                <div class="card-body">
+                    <h3 class="card-title">[[${animal.nickname}]]</h3>
+                    <p class="card-text">[[${animal.getTypeBreed()}]]</p>
+                    <a th:href="@{'/animals/current/' + ${animal.id}}" class="btn btn-primary">Узнать больше</a>
+                </div>
             </div>
         </div>
     </th:block>

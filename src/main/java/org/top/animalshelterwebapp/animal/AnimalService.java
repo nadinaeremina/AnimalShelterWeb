@@ -2,6 +2,7 @@ package org.top.animalshelterwebapp.animal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.top.animalshelterwebapp.card.CardNotFoundException;
 import org.top.animalshelterwebapp.user.UserNotFoundException;
 
 import java.util.List;
@@ -40,10 +41,18 @@ public class AnimalService {
         animalRepository.deleteById(id);
     }
 
-    public List<Animal> showAll(Integer id) throws UserNotFoundException {
+    public List<Animal> showAllByUserId(Integer id) throws UserNotFoundException {
         List<Animal> animals = animalRepository.findAllByUserId(id);
         if (animals.isEmpty()) {
             throw new UserNotFoundException("Could not find any pets with User ID" + id);
+        }
+        return animals;
+    }
+
+    public List<Animal> showAllByCardId(Integer id) throws CardNotFoundException {
+        List<Animal> animals = animalRepository.findAllByCardId(id);
+        if (animals.isEmpty()) {
+            throw new CardNotFoundException("Could not find any pets with Card ID" + id);
         }
         return animals;
     }

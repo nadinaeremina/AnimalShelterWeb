@@ -19,23 +19,11 @@ public class TypeService {
         return (List<Type>) typeRepository.findAll();
     }
 
-    public void save(Type type) {
-        typeRepository.save(type);
-    }
-
     public Type get(Integer id) throws TypeNotFoundException {
         Optional<Type> result = typeRepository.findById(id);
         if (result.isPresent()) {
             return result.get();
         }
         throw new TypeNotFoundException("Could not find any types with ID" + id);
-    }
-
-    public void delete(Integer id) throws TypeNotFoundException {
-        Long count = typeRepository.countById(id);
-        if (count == null || count == 0) {
-            throw new TypeNotFoundException("Could not find any types with ID" + id);
-        }
-        typeRepository.deleteById(id);
     }
 }
