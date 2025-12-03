@@ -5,13 +5,20 @@
     <title>Animals</title>
     <!-- подключение стилей bootstrap -->
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <style>
+        img {
+          width: 200px;
+          height: 200px;
+        }
+    </style>
 </head>
 <body>
 <section>
     <h2>Наши питомцы</h2>
+    <a th:href="@{/sorting_form}" class="btn btn-primary">Сортировка</a>
     <!-- Здесь будут карточки животных с фото, именем и описанием -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr);">
     <th:block th:each="animal : ${listAnimals}">
-        <div style="display: flex; justify-content: space-between; flex-direction: row;">
             <div class="card text-white bg-dark mb-3" style="width: 18rem;">
                 <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
                 <div class="card-body">
@@ -20,8 +27,8 @@
                     <a th:href="@{'/animals/current/' + ${animal.id}}" class="btn btn-primary">Узнать больше</a>
                 </div>
             </div>
-        </div>
     </th:block>
+    </div>
 </section>
 <section id="about">
     <h2>О нас</h2>
