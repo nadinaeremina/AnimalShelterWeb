@@ -15,7 +15,8 @@
 <body>
 <section>
     <h2>Наши питомцы</h2>
-    <a th:href="@{/sorting_form}" class="btn btn-primary">Сортировка</a>
+    <a th:href="@{/sorting_form}" class="btn btn-primary">Выборка</a>
+    <a th:href="@{/myCard/show}" class="btn btn-primary">Избранное</a>
     <!-- Здесь будут карточки животных с фото, именем и описанием -->
     <div style="display: grid; grid-template-columns: repeat(3, 1fr);">
     <th:block th:each="animal : ${listAnimals}">
@@ -29,7 +30,34 @@
             </div>
     </th:block>
     </div>
+    <div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class = "col-sm-1">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +
+                   ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+            </div>
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">NEXT</a>
+                <span th:unless="${currentPage < totalPages}">NEXT</span>
+            </div>
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">LAST</a>
+                <span th:unless="${currentPage < totalPages}">LAST</span>
+            </div>
+        </div>
+    </div>
 </section>
+<div>
+    <a th:href="@{/index}">Вернуться обратно</a>
+</div>
 <section id="about">
     <h2>О нас</h2>
     <p>Краткая история приюта и наша миссия.</p>

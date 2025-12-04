@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.top.animalshelterwebapp.MainController;
 import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.city.CityService;
 import org.top.animalshelterwebapp.type.Type;
@@ -28,17 +29,22 @@ public class AnimalController {
     @Autowired
     private final AnimalService animalService;
     private final CityService cityService;
-    private final UserService userService;
     private final TypeService typeService;
     private final WorkersRepository repository;
+    private final MainController mainController;
 
-    public AnimalController(AnimalService animalService, CityService cityService, UserService userService,
-                            TypeService typeService, WorkersRepository workersRepository) {
+    public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
+                            WorkersRepository workersRepository, MainController mainController) {
         this.animalService = animalService;
         this.cityService = cityService;
-        this.userService = userService;
         this.typeService = typeService;
         this.repository = workersRepository;
+        this.mainController = mainController;
+    }
+
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        return mainController.findPaginated(1, "", "nickname", "asc", model);
     }
 
     @GetMapping("/animals")
@@ -49,7 +55,7 @@ public class AnimalController {
         } catch (Exception ex) {
             model.addAttribute("message", ex.getCause());
         }
-        return "animals";
+        return mainController.findPaginated(1, "animals", "nickname", "asc", model);
     }
 
     @GetMapping("/animals/current/{id}")
@@ -83,7 +89,7 @@ public class AnimalController {
         try {
 
             // работа с выборкой
-            int PageSize = 10; // почему так ???????????????????????????????????
+            int PageSize = 15; // почему так ???????????????????????????????????
             Integer age = animalSortData.getAge();
             CriteriaData criteriaData = new CriteriaData(String.valueOf(age), Operation.LT, "age");
             PageRequest pageRequest = PageRequest.of(0, PageSize);

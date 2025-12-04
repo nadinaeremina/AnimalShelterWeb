@@ -1,6 +1,9 @@
 package org.top.animalshelterwebapp.type;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +22,10 @@ public class TypeService {
         return (List<Type>) typeRepository.findAll();
     }
 
-    public Type get(Integer id) throws TypeNotFoundException {
-        Optional<Type> result = typeRepository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new TypeNotFoundException("Could not find any types with ID" + id);
+    public Page<Type> findPaginated(Integer pageNumber, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        PageRequest pageable= PageRequest.of(pageNumber - 1, pageSize, sort);
+        return this.typeRepository.findAll(pageable);
     }
 }

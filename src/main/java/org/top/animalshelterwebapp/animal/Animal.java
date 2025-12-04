@@ -148,4 +148,8 @@ public class Animal {
     public void setCard(Card card) {
         this.card = card;
     }
+
+    public void delCard() {
+        this.card = null;
+    }
 }

@@ -5,20 +5,57 @@
     <title>Избранное</title>
   <!-- подключение стилей bootstrap -->
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <style>
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
 </head>
 <body>
 <section>
+  <h2>Избранное</h2>
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr);">
   <th:block th:each="animal : ${listAnimals}">
-    <div style="display: flex; justify-content: space-between; flex-direction: row;">
       <div class="card text-white bg-dark mb-3" style="width: 18rem;">
         <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
         <div class="card-body">
           <h3 class="card-title">[[${animal.nickname}]]</h3>
           <p class="card-text">[[${animal.getTypeBreed()}]]</p>
+          <button>
+            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}">Удалить из избранного</a>
+          </button>
         </div>
       </div>
-    </div>
   </th:block>
+  <div>
+    <a th:href="@{/animals}">Вернуться обратно</a>
+  </div>
+  </div>
+  <div th:if = "${totalPages > 1}">
+    <div class = "row col-sm-10">
+      <div class = "col-sm-2">
+        Total Rows: [[${totalItems}]]
+      </div>
+      <div class = "col-sm-1">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +
+                   ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+      </div>
+      <div class = "col-sm-1">
+        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">NEXT</a>
+        <span th:unless="${currentPage < totalPages}">NEXT</span>
+      </div>
+      <div class = "col-sm-1">
+        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">LAST</a>
+        <span th:unless="${currentPage < totalPages}">LAST</span>
+      </div>
+    </div>
+  </div>
 </section>
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

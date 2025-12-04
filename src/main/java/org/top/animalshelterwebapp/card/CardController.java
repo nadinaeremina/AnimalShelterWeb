@@ -25,18 +25,50 @@ public class CardController {
         this.animalService = animalService;
     }
 
-    @GetMapping("/myCard/{id}")
-    public String showCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+    @GetMapping("/myCard/addAnimal/{id}")
+    public String addAnimalToCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         try {
             Card card = cardService.get(1);
             Animal currentAnimal = animalService.get(id);
             currentAnimal.setCard(card);
-            List<Animal> listAnimals = animalService.showAllByCardId(id);
+            animalService.save(currentAnimal);
+            List<Animal> listAnimals = animalService.showAllByCardId(1);
             model.addAttribute("listAnimals", listAnimals);
             return "card";
         } catch (CardNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/animals";
+        } catch (AnimalNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/animals";
+        }
+    }
+
+    @GetMapping("/myCard/delAnimal/{id}")
+    public String delAnimalFromCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            Card card = cardService.get(1);
+            Animal currentAnimal = animalService.get(id);
+            currentAnimal.delCard();
+            animalService.save(currentAnimal);
+            List<Animal> listAnimals = animalService.showAllByCardId(1);
+            model.addAttribute("listAnimals", listAnimals);
+            return "card";
+        } catch (CardNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/animals";
+        } catch (AnimalNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/animals";
+        }
+    }
+
+    @GetMapping("/myCard/show")
+    public String showCard(Model model, RedirectAttributes ra) {
+        try {
+            List<Animal> listAnimals = animalService.showAllByCardId(1);
+            model.addAttribute("listAnimals", listAnimals);
+            return "card";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/animals";

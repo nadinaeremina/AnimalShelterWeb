@@ -24,6 +24,8 @@ public class WorkerSpecification implements Specification<Animal> {
         // получаем наш критерий
         Operation operation = criteriaData.getOperation();
 
+//      // Path<Object> является "одиночным" указателем на поле,
+//      // а для работы с несколькими полями требуется их явное указание или сбор в структуру данных.
         // получаем выражение
         Path<Object> expression = root.get(criteriaData.getField());
         String value = criteriaData.getValue();

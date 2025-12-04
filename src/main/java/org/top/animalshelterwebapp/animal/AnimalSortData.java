@@ -9,8 +9,7 @@ public class AnimalSortData {
     private Integer age;
     private City city;
 
-    public AnimalSortData() {
-    }
+    public AnimalSortData() {}
 
     public City getCity() {
         return city;

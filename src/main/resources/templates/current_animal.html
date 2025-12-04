@@ -36,7 +36,7 @@
 </div>
 <div>
   <a class="h3" th:href="@{/animals}">Вернуться</a>
-  <a class="h3" th:href="@{'/myCard/' + ${currentAnimal.id}}">Добавить в избранное</a>
+  <a class="h3" th:href="@{'/myCard/addAnimal/' + ${currentAnimal.id}}">Добавить в избранное</a>
 </div>
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

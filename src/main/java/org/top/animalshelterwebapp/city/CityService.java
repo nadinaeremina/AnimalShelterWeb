@@ -1,6 +1,9 @@
 package org.top.animalshelterwebapp.city;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +22,10 @@ public class CityService {
         return (List<City>) cityRepository.findAll();
     }
 
-    public City get(Integer id) throws CityNotFoundException {
-        Optional<City> result = cityRepository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new CityNotFoundException("Could not find any cities with ID" + id);
+    public Page<City> findPaginated(Integer pageNumber, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        PageRequest pageable= PageRequest.of(pageNumber - 1, pageSize, sort);
+        return this.cityRepository.findAll(pageable);
     }
 }
