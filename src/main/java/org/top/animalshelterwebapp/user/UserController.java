@@ -1,55 +1,108 @@
 package org.top.animalshelterwebapp.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.top.animalshelterwebapp.MainController;
 import org.top.animalshelterwebapp.animal.Animal;
-import org.top.animalshelterwebapp.animal.AnimalService;
+import org.top.animalshelterwebapp.animal.AnimalNotFoundException;
 
 import java.util.List;
 
 @Controller
 public class UserController {
     @Autowired
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    private final AnimalService animalService;
-    private final MainController mainController;
 
-    public UserController(UserService userService, AnimalService animalService, MainController mainController) {
+    public UserController(PasswordEncoder passwordEncoder, UserService userService) {
+        this.passwordEncoder = passwordEncoder;
         this.userService = userService;
-        this.animalService = animalService;
-        this.mainController = mainController;
     }
 
-    @GetMapping("/users")
-    public String showList(Model model, RedirectAttributes ra) {
-        try {
-            List<User> listUsers = userService.listAll();
-            model.addAttribute("listUsers", listUsers);
-        } catch (Exception ex) {
-            model.addAttribute("message", ex.getCause());
-        }
-        return mainController.findPaginated(1, "users", "firstName", "asc", model);
+    @GetMapping("/user_form")
+    public String userForm(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("pageTitle", "Регистрация нового пользователя:");
+        return "user_form";
     }
 
-    @GetMapping("/users/{id}")
-    public String getUserAnimals(@PathVariable("id") Integer id, RedirectAttributes ra, Model model) {
-        try {
-            List<Animal> animals = animalService.showAllByUserId(id);
-            model.addAttribute("animals", animals);
-            model.addAttribute("pageTitle",
-                    "Pets of User (ID: " + id + ")");
-            ra.addFlashAttribute("message", "The pets with User ID " + id +
-                    "are here.");
-            return "user_animals";
-        } catch (UserNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
-            return "redirect:/users";
-        }
+    @GetMapping("/my_card")
+    public String myCard(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("pageTitle", "Избранное");
+        return "card";
     }
+
+    // регистрация пользователя в БД
+    @PostMapping("/register-user")
+    public String registerUser(User user, RedirectAttributes ra) {
+        if (!userService.isExistByLogin(user)) {
+            User newUser = new User();
+            newUser.setLogin(user.getLogin());
+            newUser.setRole("user");
+            String passwordHash = passwordEncoder.encode(user.getPasswordHash());
+            newUser.setPasswordHash(passwordHash);
+            userService.save(newUser);
+            ra.addFlashAttribute("message", "The user has been saved successfully.");
+            return "redirect:/index";
+        }
+
+        ra.addFlashAttribute("message", "User is already exists.");
+        return "redirect:/user_form";
+    }
+
+//    @GetMapping("/myCard/addAnimal/{id}")
+//    public String addAnimalToCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+//        try {
+//            Card card = cardService.get(1);
+//            Animal currentAnimal = animalService.get(id);
+//            currentAnimal.setCard(card);
+//            animalService.save(currentAnimal);
+//            List<Animal> listAnimals = animalService.showAllByCardId(1);
+//            model.addAttribute("listAnimals", listAnimals);
+//            return "card";
+//        } catch (CardNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//            return "redirect:/animals";
+//        } catch (AnimalNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//            return "redirect:/animals";
+//        }
+//    }
+//
+//    @GetMapping("/myCard/delAnimal/{id}")
+//    public String delAnimalFromCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+//        try {
+//            Card card = cardService.get(1);
+//            Animal currentAnimal = animalService.get(id);
+//            currentAnimal.delCard();
+//            animalService.save(currentAnimal);
+//            List<Animal> listAnimals = animalService.showAllByCardId(1);
+//            model.addAttribute("listAnimals", listAnimals);
+//            return "card";
+//        } catch (CardNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//            return "redirect:/animals";
+//        } catch (AnimalNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//            return "redirect:/animals";
+//        }
+//    }
+//
+//    @GetMapping("/myCard/show")
+//    public String showCard(Model model, RedirectAttributes ra) {
+//        try {
+//            List<Animal> listAnimals = animalService.showAllByCardId(1);
+//            model.addAttribute("listAnimals", listAnimals);
+//            return "card";
+//        } catch (AnimalNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//            return "redirect:/animals";
+//        }
+//    }
 }

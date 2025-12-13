@@ -7,15 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.top.animalshelterwebapp.animal.Animal;
 import org.top.animalshelterwebapp.animal.AnimalService;
 import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.city.CityService;
+import org.top.animalshelterwebapp.guardian.Guardian;
 import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.type.TypeService;
-import org.top.animalshelterwebapp.user.User;
-import org.top.animalshelterwebapp.user.UserService;
+import org.top.animalshelterwebapp.guardian.GuardianService;
 
 import java.util.List;
 
@@ -24,14 +23,14 @@ public class MainController {
     @Autowired
     private final AnimalService animalService;
     private final CityService cityService;
-    private final UserService userService;
+    private final GuardianService guardianService;
     private final TypeService typeService;
 
-    public MainController(AnimalService animalService, CityService cityService, UserService userService,
+    public MainController(AnimalService animalService, CityService cityService, GuardianService guardianService,
                           TypeService typeService) {
         this.animalService = animalService;
         this.cityService = cityService;
-        this.userService = userService;
+        this.guardianService = guardianService;
         this.typeService = typeService;
     }
 
@@ -59,13 +58,13 @@ public class MainController {
             model.addAttribute("totalPages", page.getTotalPages());
             model.addAttribute("totalItems", page.getTotalElements());
             return "animals";
-        } else if (object.equals("users")) {
-            Page<User> page = userService.findPaginated(pageNumber, pageSize, sortField, sortDir);
-            List<User> listUsers= page.getContent();
-            model.addAttribute("listUsers", listUsers);
+        } else if (object.equals("guardians")) {
+            Page<Guardian> page = guardianService.findPaginated(pageNumber, pageSize, sortField, sortDir);
+            List<Guardian> listGuardians= page.getContent();
+            model.addAttribute("listGuardians", listGuardians);
             model.addAttribute("totalPages", page.getTotalPages());
             model.addAttribute("totalItems", page.getTotalElements());
-            return "users";
+            return "guardians";
         } else if (object.equals("cities")) {
             Page<City> page = cityService.findPaginated(pageNumber, pageSize, sortField, sortDir);
             List<City> listCities = page.getContent();

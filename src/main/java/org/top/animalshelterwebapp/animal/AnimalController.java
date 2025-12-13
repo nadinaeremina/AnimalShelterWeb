@@ -1,27 +1,19 @@
 package org.top.animalshelterwebapp.animal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.top.animalshelterwebapp.MainController;
 import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.city.CityService;
 import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.type.TypeService;
-import org.top.animalshelterwebapp.user.User;
-import org.top.animalshelterwebapp.user.UserNotFoundException;
-import org.top.animalshelterwebapp.user.UserService;
 
-import java.awt.print.Pageable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
+
 import java.util.List;
 
 @Controller
@@ -53,7 +45,7 @@ public class AnimalController {
             List<Animal> listAnimals = animalService.listAll();
             model.addAttribute("listAnimals", listAnimals);
         } catch (Exception ex) {
-            model.addAttribute("message", ex.getCause());
+            model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
         }
         return mainController.findPaginated(1, "animals", "nickname", "asc", model);
     }
@@ -67,7 +59,7 @@ public class AnimalController {
                     "Editing a pet with ID: " + id + ":");
             return "current_animal";
         } catch (AnimalNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
+            ra.addFlashAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
             return "redirect:/animals";
         }
     }
@@ -98,7 +90,7 @@ public class AnimalController {
 
             model.addAttribute("listAnimals", listAnimals);
         } catch (Exception ex) {
-            model.addAttribute("message", ex.getCause());
+            model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
         }
         return "animals";
     }

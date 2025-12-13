@@ -5,8 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.top.animalshelterwebapp.card.CardNotFoundException;
-import org.top.animalshelterwebapp.user.UserNotFoundException;
+import org.top.animalshelterwebapp.guardian.GuardianNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,16 +35,16 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
-    public List<Animal> showAllByUserId(Integer id) throws UserNotFoundException {
-        List<Animal> animals = animalRepository.findAllByUserId(id);
+    public List<Animal> showAllByGuardianId(Integer id) throws GuardianNotFoundException {
+        List<Animal> animals = animalRepository.findAllByGuardianId(id);
         if (animals.isEmpty()) {
-            throw new UserNotFoundException("Could not find any pets with User ID" + id);
+            throw new GuardianNotFoundException("Could not find any pets with User ID" + id);
         }
         return animals;
     }
 
-    public List<Animal> showAllByCardId(Integer id) throws AnimalNotFoundException {
-        List<Animal> animals = animalRepository.findAllByCardId(id);
+    public List<Animal> showAllByUserId(Integer id) throws AnimalNotFoundException {
+        List<Animal> animals = animalRepository.findAllByUserId(id);
         if (animals.isEmpty()) {
             throw new AnimalNotFoundException("Could not find any pets with Card ID" + id);
         }

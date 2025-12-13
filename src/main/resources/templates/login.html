@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+
+<form method="post" th:action="@{/login}">
+  <div class="mb-3 row">
+    <label for="login" class="col-sm-2 col-form-label">Логин</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="login" name="username">
+    </div>
+  </div>
+  <div class="mb-3 row">
+    <label for="password" class="col-sm-2 col-form-label">Пароль</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="password" name="password">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <button class="col-sm-2 btn btn-primary">Войти</button>
+  </div>
+</form>
+
+<!-- Сообщения об ошибках -->
+<div th:if="${param.error}" class="alert alert-danger" role="alert">
+  <div th:if="${param.locked}">
+    <strong>Аккаунт заблокирован!</strong><br>
+    Превышено максимальное количество неудачных попыток входа (3).<br>
+    Аккаунт будет разблокирован: <span th:text="${param.lockoutUntil}"></span>
+  </div>
+  <div th:unless="${param.locked}">
+    <strong>Ошибка входа!</strong> Неверный логин или пароль.
+  </div>
+</div>
+
+<div th:if="${param.logout}" class="alert alert-success" role="alert">
+  <strong>Успешный выход!</strong> Вы успешно вышли из системы.
+</div>
+
+</body>
+</html>

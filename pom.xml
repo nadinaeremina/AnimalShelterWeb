@@ -68,6 +68,29 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>webjars-locator-core</artifactId>
 		</dependency>
+
+		<!-- SPRING SECURITY -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.13.1</version>
+		</dependency>
+
+		<!-- ADDITIONAL SPRING SECURITY DEPS -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
