@@ -1,6 +1,7 @@
 package org.top.animalshelterwebapp.animal;
 
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.guardian.Guardian;
 import org.top.animalshelterwebapp.type.Type;
@@ -47,9 +48,9 @@ public class Animal {
     private Type type;
 
     // связь с сущность (таблицей) юзеров
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private @Nullable User user;
 
     public String getPhoto() {
         return photo;
@@ -144,7 +145,14 @@ public class Animal {
         return user;
     }
 
-    public void setUser(User user) {
+    public @Nullable String getUserLogin() {
+        if (user!=null) {
+            return user.getLogin();
+        }
+        return null;
+    }
+
+    public void setUser(@Nullable User user) {
         this.user = user;
     }
 

@@ -23,7 +23,6 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.top.animalshelterwebapp.security.DbUserDetailsService;
-import org.top.animalshelterwebapp.security.LockoutAuthenticationFailureHandler;
 import org.top.animalshelterwebapp.user.UserRepository;
 
 import javax.sql.DataSource;
@@ -39,62 +38,60 @@ public class SecurityConfiguration {
 
     private  final UserRepository userRepository;
     private final DataSource dataSource;
-    private final LockoutAuthenticationFailureHandler lockoutFailureHandler;
 
-    public SecurityConfiguration(UserRepository userRepository, DataSource dataSource,
-                                 LockoutAuthenticationFailureHandler lockoutFailureHandler) {
+    public SecurityConfiguration(UserRepository userRepository, DataSource dataSource) {
         this.userRepository = userRepository;
         this.dataSource = dataSource;
-        this.lockoutFailureHandler = lockoutFailureHandler;
     }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // настройка конфига защиты
-        http.authorizeHttpRequests(r ->
-                        r.requestMatchers("/", "/api/**", "/webjars/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/airport").authenticated()
-                                .requestMatchers("/airport/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
-                ).formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                        .defaultSuccessUrl("/")
-                        .failureHandler(lockoutFailureHandler)
-//                        .successHandler(authenticationSuccessHandler())
-                )
-                .csrf(AbstractHttpConfigurer::disable);
-
-        // сборка конфига защиты
-        return http.build();
-    }
-
+//
 //    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-//
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        // настройка конфига защиты
-//        // запросы, которые нам необходимо будет защищать, либо разрешать
 //        http.authorizeHttpRequests(r ->
-//                // будем требовать аутентификацию
-//                // разрешим доступ ко всем либам "webjars" (например, к 'bootstrap')
-//                // здесь доступ разрешен всем авторизованным пользователям
-//                r.requestMatchers("/myCard/**", "webjars/**").authenticated()
-//
-//                // здесь задаем еще и метод
-//                // .requestMatchers(HttpMethod.GET, "/myCard/**", "webjars/**").authenticated()
-//
-//                        // здесь доступ только для админов
-//                        // .requestMatchers("/sorted_animals").hasRole("ADMIN")
-//                        // значит в 'GrantedAuthority' должно быть указано ROLE_ADMIN
-//
-//                        // всему остальному мы будем разрешать доступ
-//                        .anyRequest().permitAll()
-//                // разрешать зайти на форму логина
-//        ).formLogin(form -> form.permitAll().successForwardUrl("/index"));
+//                        r.requestMatchers("/index", "/animals", "/register", "/auth", "/about", "/webjars/**").permitAll()
+//                                .requestMatchers("/my_card").authenticated()
+////                                .requestMatchers("/airport/**").hasRole("ADMIN")
+////                                .anyRequest().authenticated()
+//                ).formLogin(form -> form
+//                        .loginPage("/login")
+//                        .permitAll()
+//                        .defaultSuccessUrl("/")
+//                )
+//                .csrf(AbstractHttpConfigurer::disable);
 //
 //        // сборка конфига защиты
 //        return http.build();
 //    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+
+        // настройка конфига защиты
+        // запросы, которые нам необходимо будет защищать, либо разрешать
+        http.authorizeHttpRequests(r ->
+                // будем требовать аутентификацию
+                // разрешим доступ ко всем либам "webjars" (например, к 'bootstrap')
+                // здесь доступ разрешен всем авторизованным пользователям
+
+                r.requestMatchers("/", "webjars/**").permitAll()
+                .requestMatchers("/my_card", "/auth").authenticated()
+
+                // здесь задаем еще и метод
+                // .requestMatchers(HttpMethod.GET, "/myCard/**", "webjars/**").authenticated()
+
+                        // здесь доступ только для админов
+                        //.requestMatchers("/my_card").hasRole("ADMIN")
+                        // значит в 'GrantedAuthority' должно быть указано ROLE_ADMIN
+
+                        // всему остальному мы будем разрешать доступ
+                        .anyRequest().permitAll()
+                // разрешать зайти на форму логина, форма логина доступна всем
+        ).formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/"))
+                .csrf(AbstractHttpConfigurer::disable);;
+
+        // сборка конфига защиты
+        return http.build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -149,25 +146,4 @@ public class SecurityConfiguration {
         jdbcUserDetailsManager.setAuthenticationManager(authenticationManager);
         return jdbcUserDetailsManager;
     }
-
-    // сервис для работы с пользователями, реализованный в виде in-memory заглушки
-    // встроенные юзеры
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        // подготовим тестовых пользователй через встроенные типы
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password("qwerty")
-//                .passwordEncoder(passwordEncoder()::encode)
-//                .build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password("qwerty")
-//                .passwordEncoder(passwordEncoder()::encode)
-//                .roles("ADMIN")
-//                .build();
-//        // подготовка тестовой имплементации UserDetailsService
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
 }

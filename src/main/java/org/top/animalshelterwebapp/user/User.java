@@ -6,7 +6,7 @@ import org.top.animalshelterwebapp.animal.Animal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-// UserDbEntity - БД-сущность пользователя
+// БД-сущность пользователя
 @Entity
 @Table(name="users")
 public class User {
@@ -31,7 +31,7 @@ public class User {
     private java.time.LocalDateTime lockedUntil;
 
     // связь с сущность (таблицей) животных
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Animal> animals;
 
     public User() {}

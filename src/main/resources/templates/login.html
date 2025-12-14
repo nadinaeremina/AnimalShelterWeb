@@ -5,7 +5,7 @@
   <title>Login</title>
 </head>
 <body>
-
+<h2>Пожалуйста, авторизуйтесь</h2>
 <form method="post" th:action="@{/login}">
   <div class="mb-3 row">
     <label for="login" class="col-sm-2 col-form-label">Логин</label>
@@ -21,25 +21,8 @@
   </div>
 
   <div class="mb-3 row">
-    <button class="col-sm-2 btn btn-primary">Войти</button>
+    <button class="col-sm-2 btn btn-primary">Авторизоваться</button>
   </div>
 </form>
-
-<!-- Сообщения об ошибках -->
-<div th:if="${param.error}" class="alert alert-danger" role="alert">
-  <div th:if="${param.locked}">
-    <strong>Аккаунт заблокирован!</strong><br>
-    Превышено максимальное количество неудачных попыток входа (3).<br>
-    Аккаунт будет разблокирован: <span th:text="${param.lockoutUntil}"></span>
-  </div>
-  <div th:unless="${param.locked}">
-    <strong>Ошибка входа!</strong> Неверный логин или пароль.
-  </div>
-</div>
-
-<div th:if="${param.logout}" class="alert alert-success" role="alert">
-  <strong>Успешный выход!</strong> Вы успешно вышли из системы.
-</div>
-
 </body>
 </html>

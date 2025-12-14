@@ -23,10 +23,23 @@ public class UserService {
         if (result.isPresent()) {
             return result.get();
         }
-        throw new UserNotFoundException("Could not find any pets with ID" + id);
+        throw new UserNotFoundException("Could not find User with ID" + id);
+    }
+
+    public User get(String login) throws UserNotFoundException {
+        Optional<User> result = userRepository.findByLogin(login);
+        if (result.isPresent()) {
+            return result.get();
+        }
+        throw new UserNotFoundException("Could not find User with Login" + login);
     }
 
     public boolean isExistByLogin(User user) {
         return userRepository.existsByLogin(user.getLogin());
+    }
+
+    public boolean isRightPassword(User user) {
+        User finduser = this.get(user.getLogin());
+        return finduser.getPasswordHash().equals(user.getPasswordHash());
     }
 }

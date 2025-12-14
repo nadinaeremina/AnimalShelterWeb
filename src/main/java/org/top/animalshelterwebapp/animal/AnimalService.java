@@ -46,7 +46,7 @@ public class AnimalService {
     public List<Animal> showAllByUserId(Integer id) throws AnimalNotFoundException {
         List<Animal> animals = animalRepository.findAllByUserId(id);
         if (animals.isEmpty()) {
-            throw new AnimalNotFoundException("Could not find any pets with Card ID" + id);
+            throw new AnimalNotFoundException("Could not find any pets with User ID" + id);
         }
         return animals;
     }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задержка</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- подключение стилей bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <script>
+        setTimeout(function() {
+            window.location.href = "/index";
+        }, 3000); // 3000 миллисекунд = 3 секунды задержки
+    </script>
+</head>
+<body>
+    <div th:if="${success}" class="alert alert-success text-center">
+        [[${success}]]
+    </div>
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

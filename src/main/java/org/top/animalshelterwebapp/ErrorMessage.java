@@ -1,4 +1,4 @@
-package org.top.animalshelterwebapp.middleware;
+package org.top.animalshelterwebapp;
 
 public record ErrorMessage(String code, String details) {
 }

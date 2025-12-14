@@ -21,12 +21,15 @@ public class DbUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         // 1 // найти пользователя в БД по логину
         Optional<User> user = userRepository.findByLogin(username);
+
         // 2 // если пользователь не найден
         if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
+
         // 3 // иначе собрать и вернуть 'UserDetails'
         return new DbUserDetails(user.get());
     }

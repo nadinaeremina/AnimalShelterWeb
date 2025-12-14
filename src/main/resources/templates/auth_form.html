@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>[[${pageTitle}]]</title>
+  <!-- подключение стилей bootstrap -->
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <style>
+    .text-center{
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
+  <div class="text-center">
+    <h2>[[${pageTitle}]]</h2>
+  </div>
+
+  <form th:action="@{/auth-user}" method="post" th:object="${user}"
+        style="max-width: 500px; margin: 0 auto;">
+    <div th:if="${success}" class="alert alert-success text-center">
+      [[${success}]]
+    </div>
+  </form>
+
+</div>
+<script type="text/javascript">
+  function cancelForm() {
+      window.location = "[[@{/users}]]";
+  }
+</script>
+</body>
+</html>
