@@ -43,25 +43,6 @@ public class SecurityConfiguration {
         this.userRepository = userRepository;
         this.dataSource = dataSource;
     }
-//
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        // настройка конфига защиты
-//        http.authorizeHttpRequests(r ->
-//                        r.requestMatchers("/index", "/animals", "/register", "/auth", "/about", "/webjars/**").permitAll()
-//                                .requestMatchers("/my_card").authenticated()
-////                                .requestMatchers("/airport/**").hasRole("ADMIN")
-////                                .anyRequest().authenticated()
-//                ).formLogin(form -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                        .defaultSuccessUrl("/")
-//                )
-//                .csrf(AbstractHttpConfigurer::disable);
-//
-//        // сборка конфига защиты
-//        return http.build();
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -97,23 +78,6 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-//        return new AuthenticationSuccessHandler() {
-//            @Override
-//            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//                                                org.springframework.security.core.Authentication authentication)
-//                    throws IOException, ServletException {
-//                // Сбрасываем счетчик неудачных попыток при успешной аутентификации
-//                String username = authentication.getName();
-//                if (username != null) {
-//                    userRepository.resetFailedAttempts(username);
-//                }
-//                response.sendRedirect("/");
-//            }
-//        };
-//    }
 
     // Сервисы для внедрения компонентов БД-сервисов в использование 'Spring Security'
     @Bean

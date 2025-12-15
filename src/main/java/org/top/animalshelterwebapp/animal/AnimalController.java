@@ -1,5 +1,6 @@
 package org.top.animalshelterwebapp.animal;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +15,10 @@ import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.type.TypeService;
 
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class AnimalController {
@@ -22,16 +26,18 @@ public class AnimalController {
     private final AnimalService animalService;
     private final CityService cityService;
     private final TypeService typeService;
-    private final WorkersRepository repository;
+    //private final WorkersRepository repository;
     private final MainController mainController;
+    private final EntityManager entityManager;
 
     public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
-                            WorkersRepository workersRepository, MainController mainController) {
+                            WorkersRepository workersRepository, MainController mainController, EntityManager entityManager) {
         this.animalService = animalService;
         this.cityService = cityService;
         this.typeService = typeService;
-        this.repository = workersRepository;
+        // this.repository = workersRepository;
         this.mainController = mainController;
+        this.entityManager = entityManager;
     }
 
     @GetMapping("/")
@@ -79,16 +85,14 @@ public class AnimalController {
     public String sortedAnimals(AnimalSortData animalSortData, RedirectAttributes ra, Model model) {
         model.addAttribute("pageTitle", "Sorted Animals");
         try {
+            myMethod myMethod = new myMethod(entityManager);
+            List<Animal> listAnimals = myMethod.findEmployeesByFields(animalSortData.getType().getTitle(),
+                    animalSortData.getCity().getTitle(), animalSortData.getAge());
 
-            // работа с выборкой
-            int PageSize = 15; // почему так ???????????????????????????????????
-            Integer age = animalSortData.getAge();
-            CriteriaData criteriaData = new CriteriaData(String.valueOf(age), Operation.LT, "age");
-            PageRequest pageRequest = PageRequest.of(0, PageSize);
-            Page<Animal> entities = repository.findAll(new WorkerSpecification(criteriaData), pageRequest);
-            List<Animal> listAnimals = entities.getContent();
+            Set<Animal> set = new HashSet<Animal>(listAnimals);
+            List<Animal> uniqueList = new ArrayList<Animal>(set);
 
-            model.addAttribute("listAnimals", listAnimals);
+            model.addAttribute("listAnimals", uniqueList);
         } catch (Exception ex) {
             model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
         }

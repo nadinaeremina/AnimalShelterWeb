@@ -15,7 +15,8 @@
             <div class="col-sm-8">
                 <select th:field="*{type}" class="form-control" >
                     <th:block th:each="type : ${listTypes}">
-                        <option th:value="${type.id}">[[${type.title}]], [[${type.breed}]]</option>
+<!--                        <option th:value="${type.id}">[[${type.title}]], [[${type.breed}]]</option>-->
+                        <option th:value="${type.id}">[[${type.title}]]</option>
                     </th:block>
                 </select>
             </div>
