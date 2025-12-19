@@ -1,9 +1,12 @@
 package org.top.animalshelterwebapp.user;
 
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 import org.top.animalshelterwebapp.animal.Animal;
+import org.top.animalshelterwebapp.animal.AnimalUser;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 // БД-сущность пользователя
@@ -24,15 +27,17 @@ public class User {
     @Column(name="role_f", nullable = false, length = 15)
     private String role;
 
-    @Column(name="failed_attempts_t", nullable = false)
-    private Integer failedAttempts = 0;
-
-    @Column(name="locked_until_t")
-    private java.time.LocalDateTime lockedUntil;
+//    @ManyToMany(mappedBy = "users") // "books" refers to the field name in the Author entity
+//    private Set<Animal> animals = new HashSet<>();
 
     // связь с сущность (таблицей) животных
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Animal> animals;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "animal_user",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "animal_id", referencedColumnName="id")
+    )
+    private @Nullable Set<Animal> animals = new HashSet<>();
 
     public User() {}
 
@@ -68,27 +73,11 @@ public class User {
         return id;
     }
 
-    public LocalDateTime getLockedUntil() {
-        return lockedUntil;
-    }
-
-    public Integer getFailedAttempts() {
-        return failedAttempts;
-    }
-
     public Set<Animal> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(Set<Animal> animals) {
-        this.animals = animals;
-    }
-
-    public void setLockedUntil(LocalDateTime lockedUntil) {
-        this.lockedUntil = lockedUntil;
-    }
-
-    public void setFailedAttempts(Integer failedAttempts) {
-        this.failedAttempts = failedAttempts;
+    public void setAnimals (@Nullable Animal animal) {
+        this.animals.add(animal);
     }
 }

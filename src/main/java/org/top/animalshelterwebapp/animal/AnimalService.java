@@ -1,22 +1,35 @@
 package org.top.animalshelterwebapp.animal;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.top.animalshelterwebapp.guardian.GuardianNotFoundException;
+import org.top.animalshelterwebapp.user.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AnimalService {
     @Autowired
     private final AnimalRepository animalRepository;
+    private final EntityManager entityManager;
+    // private final AnimalUserRepository animalUserRepository;
 
-    public AnimalService(AnimalRepository animalRepository) {
+//    @PersistenceContext
+//    private EntityManager entityManager;
+
+    public AnimalService(AnimalRepository animalRepository, EntityManager entityManager) {
         this.animalRepository = animalRepository;
+        this.entityManager = entityManager;
+        // this.animalUserRepository = animalUserRepository;
     }
 
     public List<Animal> listAll() {
@@ -35,6 +48,14 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
+//    public void deleteByUserIdAndAnimalId(Integer userId, Integer animalId) throws AnimalNotFoundException {
+//        Integer count = animalUserRepository.countByUserIdAndAnimalId(userId, animalId);
+//        if (count == null || count == 0) {
+//            throw new AnimalNotFoundException("Could not find any pets with ID");
+//        }
+//        animalUserRepository.deleteByUserIdAndAnimalId(userId, animalId);
+//    }
+
     public List<Animal> showAllByGuardianId(Integer id) throws GuardianNotFoundException {
         List<Animal> animals = animalRepository.findAllByGuardianId(id);
         if (animals.isEmpty()) {
@@ -43,13 +64,21 @@ public class AnimalService {
         return animals;
     }
 
-    public List<Animal> showAllByUserId(Integer id) throws AnimalNotFoundException {
-        List<Animal> animals = animalRepository.findAllByUserId(id);
-        if (animals.isEmpty()) {
+    public Set<Animal> showAllByUserId(Integer id) throws AnimalNotFoundException {
+        User user = entityManager.find(User.class, id);
+        Set<Animal> animals = user.getAnimals();
+        if (animals == null) {
             throw new AnimalNotFoundException("Could not find any pets with User ID" + id);
         }
         return animals;
     }
+
+//
+//        User findUser =
+//        List<Animal> animals = animalRepository.findAllByUserId(id);
+//        if (animals.isEmpty()) {
+//            throw new AnimalNotFoundException("Could not find any pets with User ID" + id);
+
 
     public Page<Animal> findPaginated(Integer pageNumber, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :

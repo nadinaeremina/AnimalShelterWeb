@@ -32,10 +32,6 @@ import java.io.IOException;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    // Константы для настройки lockout-блокировок
-    private static final int MAX_FAILED_ATTEMPTS = 3;
-    private static final int LOCKOUT_DURATION_MINUTES = 15;
-
     private  final UserRepository userRepository;
     private final DataSource dataSource;
 
@@ -55,7 +51,7 @@ public class SecurityConfiguration {
                 // здесь доступ разрешен всем авторизованным пользователям
 
                 r.requestMatchers("/", "webjars/**").permitAll()
-                .requestMatchers("/my_card", "/auth").authenticated()
+                .requestMatchers("/my_card", "animals/current/**", "/auth").authenticated()
 
                 // здесь задаем еще и метод
                 // .requestMatchers(HttpMethod.GET, "/myCard/**", "webjars/**").authenticated()

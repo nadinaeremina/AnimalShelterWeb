@@ -10,10 +10,10 @@ import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-public class myMethod {
+public class Specification {
     private final EntityManager entityManager;
 
-    public myMethod(EntityManager entityManager) {
+    public Specification(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
     public List<Animal> findEmployeesByFields(String type, String city, Integer age) {
@@ -23,10 +23,10 @@ public class myMethod {
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (type != null) {
+        if (type != null && !type.isEmpty()) {
             predicates.add(cb.equal(root.get("type").get("title"), type));
         }
-        if (city != null) {
+        if (city != null && !city.isEmpty()) {
             predicates.add(cb.equal(root.get("city").get("title"), city));
         }
         if (age != null) {

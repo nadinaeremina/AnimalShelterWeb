@@ -21,6 +21,7 @@
         <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
         <div class="card-body">
           <h3 class="card-title">[[${animal.nickname}]]</h3>
+          <p class="card-title">[[${animal.gender}]]</p>
           <p class="card-text">[[${animal.getTypeBreed()}]]</p>
           <button>
             <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}">Удалить из избранного</a>

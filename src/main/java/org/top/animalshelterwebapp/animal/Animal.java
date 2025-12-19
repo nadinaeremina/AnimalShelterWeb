@@ -8,6 +8,8 @@ import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.user.User;
 
 import java.time.Year;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "animals")
@@ -18,6 +20,9 @@ public class Animal {
 
     @Column(name = "nickname_f", nullable = false, length = 45)
     private String nickname;
+
+    @Column(name = "gender_f", nullable = false, length = 1)
+    private String gender;
 
     @Column(name = "age_f", nullable = false, length = 3)
     private Integer age;
@@ -48,9 +53,13 @@ public class Animal {
     private Type type;
 
     // связь с сущность (таблицей) юзеров
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private @Nullable User user;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "animal_user",
+            joinColumns = @JoinColumn(name = "animal_id", referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName="id")
+    )
+    private @Nullable Set<User> users = new HashSet<>();
 
     public String getPhoto() {
         return photo;
@@ -141,22 +150,46 @@ public class Animal {
         return type.getBreed();
     }
 
-    public User getUser() {
-        return user;
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public @Nullable String getUserLogin() {
+//        if (user!=null) {
+//            return user.getLogin();
+//        }
+//        return null;
+//    }
+
+    @Nullable
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public @Nullable String getUserLogin() {
-        if (user!=null) {
-            return user.getLogin();
+    public void setUsers(@Nullable User user) {
+        this.users.add(user);
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public boolean isUser (User user) {
+        if (user == null) {
+            return  false;
         }
-        return null;
+        return users.contains(user);
     }
 
-    public void setUser(@Nullable User user) {
-        this.user = user;
-    }
-
-    public void delUser() {
-        this.user = null;
-    }
+//    public void setUser(@Nullable User user) {
+//        this.user = user;
+//    }
+//
+//    public void delUser() {
+//        this.user = null;
+//    }
 }

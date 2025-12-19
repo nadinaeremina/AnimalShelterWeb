@@ -16,6 +16,7 @@ import org.top.animalshelterwebapp.animal.AnimalNotFoundException;
 import org.top.animalshelterwebapp.animal.AnimalService;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -112,7 +113,7 @@ public class UserController {
         User user = userService.get(username);
         model.addAttribute("pageTitle", "Избранное");
         try {
-            List<Animal> listAnimals = animalService.showAllByUserId(user.getId());
+            Set<Animal> listAnimals = animalService.showAllByUserId(user.getId());
             model.addAttribute("listAnimals", listAnimals);
             return "card";
         } catch (AnimalNotFoundException e) {
@@ -126,14 +127,14 @@ public class UserController {
         try {
             Animal currentAnimal = animalService.get(id);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            User user = userService.get(username);
-            if ((currentAnimal.getUserLogin() == null) ||
-                    (currentAnimal.getUserLogin() != null && !currentAnimal.getUserLogin().contains(username))) {
-                currentAnimal.setUser(user);
+            String currentUsername = authentication.getName();
+            User currentUser = userService.get(currentUsername);
+            if ((currentUser == null) || !currentAnimal.isUser(currentUser)) {
+                currentAnimal.setUsers(currentUser);
+                // currentUser.setAnimals(currentAnimal);
                 animalService.save(currentAnimal);
             }
-            List<Animal> listAnimals = animalService.showAllByUserId(user.getId());
+            Set<Animal> listAnimals = animalService.showAllByUserId(currentUser.getId());
             model.addAttribute("listAnimals", listAnimals);
             return "card";
         } catch (UserNotFoundException e) {
@@ -149,13 +150,12 @@ public class UserController {
     public String delAnimalFromCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         try {
             Animal currentAnimal = animalService.get(id);
-            currentAnimal.setUser(null);
-            animalService.save(currentAnimal);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             User user = userService.get(username);
-            List<Animal> listAnimals = animalService.showAllByUserId(user.getId());
-            model.addAttribute("listAnimals", listAnimals);
+            animalService.save(currentAnimal);
+            //List<Animal> listAnimals = animalService.showAllByUserId(user.getId());
+            //model.addAttribute("listAnimals", listAnimals);
             return "card";
         } catch (UserNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());

@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
     List<Animal> findAllByGuardianId(Integer id);
-    List<Animal> findAllByUserId(Integer id);
-    //findAnimalsByFields
+    //List<Animal> findAllByUserId(Integer id);
 }

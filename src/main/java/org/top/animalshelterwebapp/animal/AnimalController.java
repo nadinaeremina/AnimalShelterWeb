@@ -2,8 +2,8 @@ package org.top.animalshelterwebapp.animal;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,8 @@ import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.city.CityService;
 import org.top.animalshelterwebapp.type.Type;
 import org.top.animalshelterwebapp.type.TypeService;
+import org.top.animalshelterwebapp.user.User;
+import org.top.animalshelterwebapp.user.UserService;
 
 
 import java.util.ArrayList;
@@ -24,19 +26,19 @@ import java.util.Set;
 public class AnimalController {
     @Autowired
     private final AnimalService animalService;
+    private final UserService userService;
     private final CityService cityService;
     private final TypeService typeService;
-    //private final WorkersRepository repository;
     private final MainController mainController;
     private final EntityManager entityManager;
 
     public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
-                            WorkersRepository workersRepository, MainController mainController, EntityManager entityManager) {
+                            MainController mainController, UserService userService, EntityManager entityManager) {
         this.animalService = animalService;
         this.cityService = cityService;
         this.typeService = typeService;
-        // this.repository = workersRepository;
         this.mainController = mainController;
+        this.userService = userService;
         this.entityManager = entityManager;
     }
 
@@ -85,17 +87,31 @@ public class AnimalController {
     public String sortedAnimals(AnimalSortData animalSortData, RedirectAttributes ra, Model model) {
         model.addAttribute("pageTitle", "Sorted Animals");
         try {
-            myMethod myMethod = new myMethod(entityManager);
-            List<Animal> listAnimals = myMethod.findEmployeesByFields(animalSortData.getType().getTitle(),
+            Specification specification = new Specification(entityManager);
+            List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType().getTitle(),
                     animalSortData.getCity().getTitle(), animalSortData.getAge());
 
             Set<Animal> set = new HashSet<Animal>(listAnimals);
             List<Animal> uniqueList = new ArrayList<Animal>(set);
-
             model.addAttribute("listAnimals", uniqueList);
         } catch (Exception ex) {
             model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
         }
         return "animals";
     }
+
+//    @GetMapping("/animals/delete/{id}")
+//    public String deleteAnimal(@PathVariable("id") Integer animalId, RedirectAttributes ra) {
+//        try {
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            User user = userService.get(username);
+//            animalService.deleteByUserIdAndAnimalId(user.getId(), animalId);
+//            ra.addFlashAttribute("message", "The Pet " +
+//                    "has been deleted.");
+//        } catch (AnimalNotFoundException e) {
+//            ra.addFlashAttribute("message", e.getMessage());
+//        }
+//        return "redirect:/animals";
+//    }
 }
