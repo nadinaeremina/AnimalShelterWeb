@@ -1,10 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>About</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- подключение стилей bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+          background-color: #f5f7fa;
+          color: #333;
+          line-height: 1.6;
+          padding-bottom: 100px;
+        }
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+        /* Стили для header */
+        header {
+          background-color: #fff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+        .header-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        /* Логотип */
+        .logo {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+        }
+        .logo-icon {
+          font-size: 58px;
+          color: #4a6cf7;
+          margin-right: 15px;
+        }
+        .logo-text {
+          font-size: 24px;
+          font-weight: 700;
+          background: linear-gradient(90deg, #4a6cf7, #6a11cb);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+        .logo-text p {
+          line-height: 20px;
+          text-align: center;
+          margin-left: 10px;
+          margin-top: 20px;
+        }
+        /* Навигация */
+        .nav-menu {
+          display: flex;
+          list-style: none;
+        }
+        .nav-item {
+          margin: 0 15px;
+          position: relative;
+        }
+        .nav-link {
+          text-decoration: none;
+          color: #333;
+          font-weight: 600;
+          font-size: 16px;
+          padding: 8px 0;
+          transition: color 0.3s ease;
+          display: flex;
+          align-items: center;
+        }
+        .nav-link:hover {
+          color: #4a6cf7;
+        }
+        .nav-link i {
+          margin-right: 6px;
+          font-size: 14px;
+        }
+        /* Кнопки действий */
+        .header-actions {
+          display: flex;
+          align-items: center;
+        }
+        .btn {
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-weight: 600;
+          font-size: 15px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+          margin-left: 12px;
+        }
+        .btn-login {
+          background-color: transparent;
+          color: #4a6cf7;
+          border: 2px solid #4a6cf7;
+        }
+        .btn-login:hover {
+          background-color: #4a6cf7;
+          color: white;
+        }
+        .btn-signup {
+          background-color: #4a6cf7;
+          color: white;
+          box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+        }
+        .btn-signup:hover {
+          background-color: #3a5ce5;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(74, 108, 247, 0.4);
+        }
+    </style>
 </head>
 <body>
+<!-- Вставка шапки (header) -->
+<!-- th:insert добавляет содержимое <header> в <div id="header"> -->
+<div th:insert="~{fragments :: header}"></div>
 <section id="about">
     <h2>О нас</h2>
     <p>Краткая история приюта и наша миссия.</p>

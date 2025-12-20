@@ -150,17 +150,6 @@ public class Animal {
         return type.getBreed();
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public @Nullable String getUserLogin() {
-//        if (user!=null) {
-//            return user.getLogin();
-//        }
-//        return null;
-//    }
-
     @Nullable
     public Set<User> getUsers() {
         return users;
@@ -168,6 +157,10 @@ public class Animal {
 
     public void setUsers(@Nullable User user) {
         this.users.add(user);
+    }
+
+    public void unSetUsers(@Nullable User user) {
+        this.users.remove(user);
     }
 
     public String getGender() {
@@ -184,12 +177,4 @@ public class Animal {
         }
         return users.contains(user);
     }
-
-//    public void setUser(@Nullable User user) {
-//        this.user = user;
-//    }
-//
-//    public void delUser() {
-//        this.user = null;
-//    }
 }

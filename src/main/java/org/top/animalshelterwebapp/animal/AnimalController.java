@@ -99,19 +99,4 @@ public class AnimalController {
         }
         return "animals";
     }
-
-//    @GetMapping("/animals/delete/{id}")
-//    public String deleteAnimal(@PathVariable("id") Integer animalId, RedirectAttributes ra) {
-//        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String username = authentication.getName();
-//            User user = userService.get(username);
-//            animalService.deleteByUserIdAndAnimalId(user.getId(), animalId);
-//            ra.addFlashAttribute("message", "The Pet " +
-//                    "has been deleted.");
-//        } catch (AnimalNotFoundException e) {
-//            ra.addFlashAttribute("message", e.getMessage());
-//        }
-//        return "redirect:/animals";
-//    }
 }

@@ -1,49 +1,136 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- подключение стилей bootstrap -->
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
   <style>
-    body{
-      margin-left: 10px;
-      margin-right: 10px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    header{
-      height: 90px;
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      padding-bottom: 100px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    /* Стили для header */
+    header {
+      background-color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-left: 35px;
-      padding-right: 30px;
-      background-color: #f5f5f5;
     }
-    .header_first{
-      font-size: 34px;
-      font-weight: bold;
-      color: #445e9e;
-      font-style: italic;
-    }
-    .header_second{
-      font-size: 20px;
-    }
-    .ul_container{
+    /* Логотип */
+    .logo {
       display: flex;
+      align-items: center;
+      text-decoration: none;
     }
-    .ul_container li{
-      margin-right: 10px;
+    .logo-icon {
+      font-size: 58px;
+      color: #4a6cf7;
+      margin-right: 15px;
+    }
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #4a6cf7, #6a11cb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo-text p {
+      line-height: 20px;
+      text-align: center;
+      margin-left: 10px;
+      margin-top: 20px;
+    }
+    /* Навигация */
+    .nav-menu {
+      display: flex;
       list-style: none;
     }
-    .chance{
+    .nav-item {
+      margin: 0 15px;
+      position: relative;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 8px 0;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+    .nav-link:hover {
+      color: #4a6cf7;
+    }
+    .nav-link i {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+    /* Кнопки действий */
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .btn {
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      margin-left: 12px;
+    }
+    .btn-login {
+      background-color: transparent;
+      color: #4a6cf7;
+      border: 2px solid #4a6cf7;
+    }
+    .btn-login:hover {
+      background-color: #4a6cf7;
+      color: white;
+    }
+    .btn-signup {
+      background-color: #4a6cf7;
+      color: white;
+      box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+    }
+    .btn-signup:hover {
+      background-color: #3a5ce5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(74, 108, 247, 0.4);
+    }
+    .chance {
       height: calc(100vh - 70px);
       background: url('/2.jpg');
       background-size: cover;
       background-position: top;
       position: relative;
     }
-    .first_chance{
+    .first_chance {
       color: #f5f5f5;
       font-weight: bold;
       font-size: 52px;
@@ -54,12 +141,12 @@
       top: 30%;
       left: 5%;
     }
-    a{
+    a {
       color: #445e9e;
       font-weight: 500;
       text-decoration: none;
     }
-    .heart{
+    .heart {
       position: absolute;
       width: 100px;
       height: 100px;
@@ -88,53 +175,77 @@
     }
     @keyframes beat {
     0% {
-        transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
     }
     20% {
-        transform: rotate(-45deg) scale(1.25); /* Чуть увеличили */
+    transform: rotate(-45deg) scale(1.25); /* Чуть увеличили */
     }
     40% {
-        transform: rotate(-45deg) scale(1.5); /* Увеличили еще больше */
+    transform: rotate(-45deg) scale(1.5); /* Увеличили еще больше */
     }
     60% {
-        transform: rotate(-45deg) scale(1.25);
+    transform: rotate(-45deg) scale(1.25);
     }
     80% {
-        transform: rotate(-45deg) scale(1.1);
+    transform: rotate(-45deg) scale(1.1);
     }
     100% {
-        transform: rotate(-45deg) scale(1);
+    transform: rotate(-45deg) scale(1);
+    }
+    }
+    /* Адаптивность */
+    @media (max-width: 992px) {
+    .nav-menu {
+      position: fixed;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      z-index: 999;
+    }
+    .nav-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-item {
+      margin: 12px 0;
+      width: 100%;
+      text-align: center;
+    }
+    .nav-link {
+      justify-content: center;
+      padding: 12px 0;
+    }
+  }
+    @media (max-width: 576px) {
+    .header-actions .btn-text {
+      display: none;
+    }
+    .header-actions .btn {
+      padding: 10px 15px;
+    }
+    .btn-login i, .btn-signup i {
+      margin-right: 0;
+    }
+    .logo-text {
+      font-size: 20px;
     }
   }
   </style>
 </head>
 <body>
-<header>
-  <div class="header_first">
-    <p>Онлайн приют для животных "Надежда"</p>
-  </div>
-  <div>
-    <h3>Вы вошли как: </h3>
-    <div sec:authorize="isAuthenticated()">
-      <th:block sec:authentication="name"></th:block>
-    </div>
-    <div sec:authorize="!isAuthenticated()">
-      <p>гость</p>
-    </div>
-  </div>
-  <div class="header_second">
-    <nav class="nav_container">
-        <ul class="ul_container">
-          <li><a th:href="@{/index}">Главная</a></li>
-          <li><a th:href="@{/animals}">Наши питомцы</a></li>
-          <li><a th:href="@{/register}">Регистрация</a></li>
-          <li><a th:href="@{/auth}">Авторизация</a></li>
-          <li><a th:href="@{/my_card}">Избранное</a></li>
-          <li><a th:href="@{/about}">О нас</a></li>
-        </ul>
-    </nav>
-  </div>
-</header>
+<!-- Вставка шапки (header) -->
+<!-- th:insert добавляет содержимое <header> в <div id="header"> -->
+<div th:insert="~{fragments :: header}"></div>
 <main>
   <div class="chance">
     <div class="first_chance">
@@ -143,7 +254,18 @@
     <div class="heart"></div>
   </div>
 </main>
-<!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
+
+
+
+<!--<div>-->
+<!--  <h3>Вы вошли как: </h3>-->
+<!--  <div sec:authorize="isAuthenticated()">-->
+<!--    <th:block sec:authentication="name"></th:block>-->
+<!--  </div>-->
+<!--  <div sec:authorize="!isAuthenticated()">-->
+<!--    <p>гость</p>-->
+<!--  </div>-->
+<!--</div>-->

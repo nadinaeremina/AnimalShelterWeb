@@ -131,7 +131,6 @@ public class UserController {
             User currentUser = userService.get(currentUsername);
             if ((currentUser == null) || !currentAnimal.isUser(currentUser)) {
                 currentAnimal.setUsers(currentUser);
-                // currentUser.setAnimals(currentAnimal);
                 animalService.save(currentAnimal);
             }
             Set<Animal> listAnimals = animalService.showAllByUserId(currentUser.getId());
@@ -152,10 +151,11 @@ public class UserController {
             Animal currentAnimal = animalService.get(id);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-            User user = userService.get(username);
+            User currentUser = userService.get(username);
+            currentAnimal.unSetUsers(currentUser);
             animalService.save(currentAnimal);
-            //List<Animal> listAnimals = animalService.showAllByUserId(user.getId());
-            //model.addAttribute("listAnimals", listAnimals);
+            Set<Animal> listAnimals = animalService.showAllByUserId(currentUser.getId());
+            model.addAttribute("listAnimals", listAnimals);
             return "card";
         } catch (UserNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
@@ -164,5 +164,10 @@ public class UserController {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/animals";
         }
+    }
+
+    @GetMapping("/template")
+    public String delAnimalFromCard() {
+        return "template";
     }
 }
