@@ -20,7 +20,7 @@
          padding-bottom: 100px;
        }
        .container {
-         max-width: 1200px;
+         max-width: 1400px;
          margin: 0 auto;
          padding: 0 20px;
        }
@@ -122,10 +122,16 @@
          transform: translateY(-2px);
          box-shadow: 0 6px 16px rgba(74, 108, 247, 0.4);
        }
-   img {
-     width: 200px;
-     height: 200px;
-   }
+       img {
+          width: 200px;
+          height: 200px;
+       }
+       .section_second {
+       max-width: 1200px;
+       margin: 0 auto;
+       display: grid;
+       grid-template-columns: repeat(3, 1fr);
+       }
   </style>
 </head>
 <body>
@@ -134,9 +140,9 @@
 <div th:insert="~{fragments :: header}"></div>
 <main>
 <section>
-  <h2>Избранное</h2>
-  <div style="display: grid; grid-template-columns: repeat(3, 1fr);">
-  <th:block th:each="animal : ${listAnimals}">
+  <h2 style="text-align: center; margin-top: 10px; margin-bottom: 10px;">Избранное</h2>
+  <div class="section_second">
+    <th:block th:each="animal : ${listAnimals}">
       <div class="card text-white bg-dark mb-3" style="width: 18rem;">
         <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
         <div class="card-body">
@@ -144,38 +150,38 @@
           <p class="card-title">[[${animal.gender}]]</p>
           <p class="card-text">[[${animal.getTypeBreed()}]]</p>
           <button>
-            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}">Удалить из избранного</a>
+            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" style="text-color: black;">Удалить из избранного</a>
           </button>
         </div>
       </div>
-  </th:block>
-  <div>
-    <a th:href="@{/animals}">Вернуться обратно</a>
-  </div>
+    </th:block>
   </div>
   <div th:if = "${totalPages > 1}">
-    <div class = "row col-sm-10">
-      <div class = "col-sm-2">
-        Total Rows: [[${totalItems}]]
+    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">
+      <div>
+        Всего: [[${totalItems}]]
       </div>
-      <div class = "col-sm-1">
+      <div>
         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
           <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +
-                   ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                    ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
           <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
         </span>
       </div>
-      <div class = "col-sm-1">
+      <div>
         <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +
-                    ${sortField} + '&sortDir=' + ${sortDir}}">NEXT</a>
-        <span th:unless="${currentPage < totalPages}">NEXT</span>
+                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>
+        <span th:unless="${currentPage < totalPages}">Следующая</span>
       </div>
-      <div class = "col-sm-1">
+      <div>
         <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +
-                    ${sortField} + '&sortDir=' + ${sortDir}}">LAST</a>
-        <span th:unless="${currentPage < totalPages}">LAST</span>
+                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>
+        <span th:unless="${currentPage < totalPages}">Предыдущая</span>
       </div>
     </div>
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <a th:href="@{/animals}">Вернуться обратно</a>
   </div>
 </section>
 </main>

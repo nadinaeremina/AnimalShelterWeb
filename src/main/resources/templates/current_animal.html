@@ -7,9 +7,10 @@
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
 </head>
 <body>
-<div class="card text-white bg-dark mb-3" style="width: 58rem;">
+<main style="display: flex; justify-content: center; align-items: center; flex-direction: column; margin-top: 10px;">
+<div class="card text-white bg-dark mb-3" style="width: 32rem;">
   <h2 class="card-title">[[${currentAnimal.nickname}]]</h2>
-  <img style="width: 500px;" class="card-img-top" th:src="@{'data:image/jpeg;base64,' + *{currentAnimal.photo}}">
+  <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + *{currentAnimal.photo}}">
   <div class="card-body">
     <div class="d-flex">
       <label>Категория: </label>
@@ -38,10 +39,11 @@
     </div>
   </div>
 </div>
-<div>
+<div style="display: flex; justify-content: space-between; width: 32rem;">
   <a class="h3" th:href="@{/animals}">Вернуться</a>
   <a class="h3" th:href="@{'/myCard/addAnimal/' + ${currentAnimal.id}}">Добавить в избранное</a>
 </div>
+</main>
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <script type="text/javascript">

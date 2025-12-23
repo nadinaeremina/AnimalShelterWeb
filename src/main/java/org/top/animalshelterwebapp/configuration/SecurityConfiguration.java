@@ -51,7 +51,7 @@ public class SecurityConfiguration {
                 // здесь доступ разрешен всем авторизованным пользователям
 
                 r.requestMatchers("/", "webjars/**").permitAll()
-                .requestMatchers("/my_card", "animals/current/**", "/auth").authenticated()
+                .requestMatchers("/my_card", "/myCard/**", "/auth").authenticated()
 
                 // здесь задаем еще и метод
                 // .requestMatchers(HttpMethod.GET, "/myCard/**", "webjars/**").authenticated()

@@ -53,13 +53,16 @@ public class Animal {
     private Type type;
 
     // связь с сущность (таблицей) юзеров
-    @ManyToMany(fetch = FetchType.LAZY)
+     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "animal_user",
             joinColumns = @JoinColumn(name = "animal_id", referencedColumnName="id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName="id")
     )
+
+    // @ManyToMany(mappedBy = "animals") // Указываем, что связь управляется со стороны Author
     private @Nullable Set<User> users = new HashSet<>();
+
 
     public String getPhoto() {
         return photo;

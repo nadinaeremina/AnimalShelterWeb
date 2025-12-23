@@ -1,28 +1,273 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6a11cb;
+            font-size: 18px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 2px solid #e1e5ee;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6a11cb;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #6a11cb;
+        }
+
+        .forgot-password {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.2);
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(to right, #5a0cb9, #1c68e8);
+            box-shadow: 0 8px 20px rgba(106, 17, 203, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 15px;
+        }
+
+        .register-link a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #e1e5ee;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 14px;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .google {
+            background: #DB4437;
+        }
+
+        .facebook {
+            background: #4267B2;
+        }
+
+        .twitter {
+            background: #1DA1F2;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 25px;
+            }
+            
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>Пожалуйста, авторизуйтесь</h2>
-<form method="post" th:action="@{/login}">
-  <div class="mb-3 row">
-    <label for="login" class="col-sm-2 col-form-label">Логин</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="login" name="username">
-    </div>
-  </div>
-  <div class="mb-3 row">
-    <label for="password" class="col-sm-2 col-form-label">Пароль</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="password" name="password">
-    </div>
-  </div>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1>Авторизация</h1>
+        </div>
 
-  <div class="mb-3 row">
-    <button class="col-sm-2 btn btn-primary">Авторизоваться</button>
-  </div>
-</form>
+        <form id="loginForm" method="post" th:action="@{/login}">
+            <div class="form-group">
+                <label for="login">Логин</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" id="login" class="form-control" name="username" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Введите пароль" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">Войти</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

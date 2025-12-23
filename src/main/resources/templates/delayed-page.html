@@ -13,9 +13,12 @@
     </script>
 </head>
 <body>
-    <div th:if="${success}" class="alert alert-success text-center">
-        [[${success}]]
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 10%;">
+        <div th:if="${success}" class="alert alert-success text-center" style="width: 600px;">
+            [[${success}]]
+        </div>
     </div>
+
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
 <!-- Фрагмент шапки -->
 <div th:fragment="header" id="header">
@@ -49,6 +49,19 @@
                         <i class="btn-text"></i> Регистрация
                     </a>
                 </button>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <div>
+                    <p style="font-size: 18px; margin-right: 10px;">Вы вошли как: </p>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <p>
+                        <th:block sec:authentication="name"> </th:block>
+                    </p>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <p> гость</p>
+                </div>
             </div>
         </div>
     </header>

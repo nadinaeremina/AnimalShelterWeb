@@ -3,7 +3,6 @@ package org.top.animalshelterwebapp.user;
 import jakarta.persistence.*;
 import org.springframework.lang.Nullable;
 import org.top.animalshelterwebapp.animal.Animal;
-import org.top.animalshelterwebapp.animal.AnimalUser;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
