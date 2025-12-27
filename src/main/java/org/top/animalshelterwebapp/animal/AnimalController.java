@@ -59,13 +59,27 @@ public class AnimalController {
     }
 
     @GetMapping("/animals/current/{id}")
-    public String showEditForm(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+    public String showCurrentAnimal(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         try {
             Animal currentAnimal = animalService.get(id);
             model.addAttribute("currentAnimal", currentAnimal);
             model.addAttribute("pageTitle",
                     "Editing a pet with ID: " + id + ":");
             return "current_animal";
+        } catch (AnimalNotFoundException e) {
+            ra.addFlashAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
+            return "redirect:/animals";
+        }
+    }
+
+    @GetMapping("/animals/oneCard/{id}")
+    public String showOneCard(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
+        try {
+            Animal currentAnimal = animalService.get(id);
+            model.addAttribute("currentAnimal", currentAnimal);
+            model.addAttribute("pageTitle",
+                    "Editing a pet with ID: " + id + ":");
+            return "oneCard_animal";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
             return "redirect:/animals";

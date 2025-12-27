@@ -53,7 +53,7 @@ public class Animal {
     private Type type;
 
     // связь с сущность (таблицей) юзеров
-     @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "animal_user",
             joinColumns = @JoinColumn(name = "animal_id", referencedColumnName="id"),

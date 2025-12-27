@@ -20,7 +20,7 @@
          padding-bottom: 100px;
        }
        .container {
-         max-width: 1400px;
+         max-width: 1500px;
          margin: 0 auto;
          padding: 0 20px;
        }
@@ -147,11 +147,14 @@
         <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
         <div class="card-body">
           <h3 class="card-title">[[${animal.nickname}]]</h3>
-          <p class="card-title">[[${animal.gender}]]</p>
-          <p class="card-text">[[${animal.getTypeBreed()}]]</p>
-          <button>
-            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" style="text-color: black;">Удалить из избранного</a>
-          </button>
+          <p class="card-title">Пол: [[${animal.gender}]]</p>
+          <p class="card-text">Возраст: [[${animal.age}]]</p>
+          <div style="display: flex; justify-content: space-between;">
+            <a th:href="@{'/animals/oneCard/' + ${animal.id}}" class="btn btn-primary">Подробнее</a>
+            <button>
+              <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" style="color: black;">Удалить</a>
+            </button>
+          </div>
         </div>
       </div>
     </th:block>
