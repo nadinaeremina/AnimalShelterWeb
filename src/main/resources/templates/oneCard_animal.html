@@ -35,7 +35,9 @@
             </div>
         </div>
     </div>
-   <a class="h3" th:href="@{/my_card}">Вернуться</a>
+    <form th:action="@{/sorted_animals}" method="post">
+        <button>Вернуться</button>
+    </form>
 </main>
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

@@ -26,19 +26,18 @@ import java.util.Set;
 public class AnimalController {
     @Autowired
     private final AnimalService animalService;
-    private final UserService userService;
     private final CityService cityService;
     private final TypeService typeService;
     private final MainController mainController;
     private final EntityManager entityManager;
+    private List<Animal> uniqueAnimalList = null;
 
     public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
-                            MainController mainController, UserService userService, EntityManager entityManager) {
+                            MainController mainController, EntityManager entityManager) {
         this.animalService = animalService;
         this.cityService = cityService;
         this.typeService = typeService;
         this.mainController = mainController;
-        this.userService = userService;
         this.entityManager = entityManager;
     }
 
@@ -49,6 +48,7 @@ public class AnimalController {
 
     @GetMapping("/animals")
     public String showList(Model model, RedirectAttributes ra) {
+        uniqueAnimalList = null;
         try {
             List<Animal> listAnimals = animalService.listAll();
             model.addAttribute("listAnimals", listAnimals);
@@ -91,26 +91,37 @@ public class AnimalController {
         model.addAttribute("pageTitle", "Sorted Animals");
         List<City> listCities = cityService.listAll();
         List<Type> listTypes = typeService.listAll();
+
+        List<String> animalTitles = new ArrayList<>();
+        for (Type type : listTypes) {
+            animalTitles.add(type.getTitle());
+        }
+
+        Set<String> set = new HashSet<String>(animalTitles);
+        List<String> uniqueAnimalTitles = new ArrayList<String>(set);
+
         model.addAttribute("animalSortData", new AnimalSortData());
         model.addAttribute("listCities", listCities);
-        model.addAttribute("listTypes", listTypes);
+        model.addAttribute("listTypes", uniqueAnimalTitles);
         return "sorting_form";
     }
 
     @PostMapping("/sorted_animals")
     public String sortedAnimals(AnimalSortData animalSortData, RedirectAttributes ra, Model model) {
         model.addAttribute("pageTitle", "Sorted Animals");
-        try {
-            Specification specification = new Specification(entityManager);
-            List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType().getTitle(),
-                    animalSortData.getCity().getTitle(), animalSortData.getAge());
+        if (uniqueAnimalList == null) {
+            try {
+                Specification specification = new Specification(entityManager);
+                List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType(),
+                        animalSortData.getCity().getTitle(), animalSortData.getAge());
 
-            Set<Animal> set = new HashSet<Animal>(listAnimals);
-            List<Animal> uniqueList = new ArrayList<Animal>(set);
-            model.addAttribute("listAnimals", uniqueList);
-        } catch (Exception ex) {
-            model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
+                Set<Animal> set = new HashSet<Animal>(listAnimals);
+                uniqueAnimalList = new ArrayList<Animal>(set);
+            } catch (Exception ex) {
+                model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
+            }
         }
-        return "animals";
+        model.addAttribute("listAnimals", uniqueAnimalList);
+        return "sorted_animals";
     }
 }

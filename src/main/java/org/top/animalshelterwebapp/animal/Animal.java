@@ -174,6 +174,8 @@ public class Animal {
         this.gender = gender;
     }
 
+
+
     public boolean isUser (User user) {
         if (user == null) {
             return  false;

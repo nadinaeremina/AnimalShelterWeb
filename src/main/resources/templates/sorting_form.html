@@ -13,10 +13,9 @@
         <div class="form-group row">
             <label class="col-sm-4 col-form-label">Type:</label>
             <div class="col-sm-8">
-                <select th:field="*{type}" class="form-control" >
-                    <th:block th:each="type : ${listTypes}">
-<!--                        <option th:value="${type.id}">[[${type.title}]], [[${type.breed}]]</option>-->
-                        <option th:value="${type.id}">[[${type.title}]]</option>
+                <select th:field="*{type}" class="form-control">
+                    <th:block th:each="typeTitle : ${listTypes}">
+                        <option th:value="${typeTitle}">[[${typeTitle}]]</option>
                     </th:block>
                 </select>
             </div>

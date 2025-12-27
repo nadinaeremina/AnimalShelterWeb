@@ -5,7 +5,7 @@ import org.top.animalshelterwebapp.city.City;
 import org.top.animalshelterwebapp.type.Type;
 
 public class AnimalSortData {
-    private Type type;
+    private String type;
     private Integer age;
     private City city;
 
@@ -19,10 +19,6 @@ public class AnimalSortData {
         return age;
     }
 
-    public Type getType() {
-        return type;
-    }
-
     public void setCity(City city) {
         this.city = city;
     }
@@ -31,7 +27,11 @@ public class AnimalSortData {
         this.age = age;
     }
 
-    public void setType(Type type) {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 }

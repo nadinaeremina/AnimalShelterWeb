@@ -149,11 +149,9 @@
           <h3 class="card-title">[[${animal.nickname}]]</h3>
           <p class="card-title">Пол: [[${animal.gender}]]</p>
           <p class="card-text">Возраст: [[${animal.age}]]</p>
-          <div style="display: flex; justify-content: space-between;">
+          <div style="display: flex; justify-content: space-around;">
             <a th:href="@{'/animals/oneCard/' + ${animal.id}}" class="btn btn-primary">Подробнее</a>
-            <button>
-              <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" style="color: black;">Удалить</a>
-            </button>
+            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" class="btn btn-primary">Удалить</a>
           </div>
         </div>
       </div>
