@@ -36,7 +36,8 @@
         </div>
     </div>
     <form th:action="@{/sorted_animals}" method="post">
-        <button>Вернуться</button>
+        <a th:href="@{'/myCard/addAnimal/' + ${currentAnimal.id}}" class="btn btn-primary">Добавить в избранное</a>
+        <button class="btn btn-primary">Вернуться</button>
     </form>
 </main>
 <!-- подключение скриптов bootstrap -->

@@ -63,7 +63,6 @@ public class Animal {
     // @ManyToMany(mappedBy = "animals") // Указываем, что связь управляется со стороны Author
     private @Nullable Set<User> users = new HashSet<>();
 
-
     public String getPhoto() {
         return photo;
     }

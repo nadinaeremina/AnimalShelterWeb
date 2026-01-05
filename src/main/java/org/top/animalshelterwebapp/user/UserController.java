@@ -47,23 +47,6 @@ public class UserController {
     }
 
     // регистрация пользователя в БД
-//    @PostMapping("/register-db-user")
-//    public User registerDbUser(
-//            @RequestParam String login,
-//            @RequestParam String password,
-//            @RequestParam String role) {
-//
-//        User user = new User();
-//        user.setLogin(login);
-//        user.setRole(role);
-//        String passwordHash = passwordEncoder.encode(password);
-//        user.setPasswordHash(passwordHash);
-//
-//        userService.save(user);
-//        return user;
-//    }
-
-    // регистрация пользователя в БД
     @PostMapping("/register-user")
     public String registerUser(User user, Model model, RedirectAttributes ra) {
 
@@ -91,11 +74,13 @@ public class UserController {
 
     // авторизация пользователя
     @PostMapping("/auth-user")
-    public String authUser(User user, RedirectAttributes ra) {
+    public String authUser(User user, RedirectAttributes ra, Model model) {
 
         if (userService.isExistByLogin(user)) {
             if (userService.isRightPassword(user)) {
             ra.addFlashAttribute("message", "Вы успешно авторизованы!");
+
+            model.addAttribute("user", new User());
 
             return "redirect:/index";
             }
@@ -170,4 +155,21 @@ public class UserController {
     public String delAnimalFromCard() {
         return "template";
     }
+
+    // регистрация пользователя в БД
+//    @PostMapping("/register-db-user")
+//    public User registerDbUser(
+//            @RequestParam String login,
+//            @RequestParam String password,
+//            @RequestParam String role) {
+//
+//        User user = new User();
+//        user.setLogin(login);
+//        user.setRole(role);
+//        String passwordHash = passwordEncoder.encode(password);
+//        user.setPasswordHash(passwordHash);
+//
+//        userService.save(user);
+//        return user;
+//    }
 }

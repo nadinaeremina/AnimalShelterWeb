@@ -76,6 +76,7 @@ public class SecurityConfiguration {
     }
 
     // Сервисы для внедрения компонентов БД-сервисов в использование 'Spring Security'
+    // фабричный метод
     @Bean
     public UserDetailsService userDetailsService() {
         return new DbUserDetailsService(userRepository);

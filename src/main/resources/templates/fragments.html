@@ -60,7 +60,9 @@
                     </p>
                 </div>
                 <div sec:authorize="!isAuthenticated()">
-                    <p> гость</p>
+                    <p th:if="${user}">
+                        [[${user}]]
+                    <p th:else> гость</p>
                 </div>
             </div>
         </div>
@@ -68,11 +70,11 @@
 </div>
 
 <!-- Фрагмент подвала -->
-<div th:fragment="footer">
-    <footer>
-        <p>&copy; 2025 Моя Компания</p>
-    </footer>
-</div>
+<!--<div th:fragment="footer">-->
+<!--    <footer>-->
+<!--        <p>&copy; 2025 Моя Компания</p>-->
+<!--    </footer>-->
+<!--</div>-->
 
 </body>
 </html>
