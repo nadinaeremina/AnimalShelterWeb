@@ -43,6 +43,14 @@ public class AnimalController {
 
     @GetMapping("/")
     public String showHomePage(Model model) {
+        try {
+            List<Animal> listAnimals = animalService.listAll();
+            List<Animal> firstSix = listAnimals.subList(0, 6);
+            model.addAttribute("firstSix", firstSix);
+            model.addAttribute("listAnimals", listAnimals);
+        } catch (Exception ex) {
+            model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
+        }
         return mainController.findPaginated(1, "", "nickname", "asc", model);
     }
 
