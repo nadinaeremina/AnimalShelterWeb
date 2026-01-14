@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Favorites</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- подключение стилей bootstrap -->
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+  <style>
+    * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+       }
+       body {
+         background-color: #f5f7fa;
+         color: #333;
+         line-height: 1.6;
+         padding-bottom: 100px;
+       }
+       .container {
+         max-width: 1500px;
+         margin: 0 auto;
+         padding: 0 20px;
+       }
+       /* Стили для header */
+       header {
+         background-color: #fff;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+         position: sticky;
+         top: 0;
+         z-index: 1000;
+       }
+       .header-container {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+       }
+       /* Логотип */
+       .logo {
+         display: flex;
+         align-items: center;
+         text-decoration: none;
+       }
+       .logo-icon {
+         font-size: 58px;
+         color: #4a6cf7;
+         margin-right: 15px;
+       }
+       .logo-text {
+         font-size: 24px;
+         font-weight: 700;
+         background: linear-gradient(90deg, #4a6cf7, #6a11cb);
+         -webkit-background-clip: text;
+         background-clip: text;
+         color: transparent;
+       }
+       .logo-text p {
+         line-height: 20px;
+         text-align: center;
+         margin-left: 10px;
+         margin-top: 20px;
+       }
+       /* Навигация */
+       .nav-menu {
+         display: flex;
+         list-style: none;
+       }
+       .nav-item {
+         margin: 0 15px;
+         position: relative;
+       }
+       .nav-link {
+         text-decoration: none;
+         color: #333;
+         font-weight: 600;
+         font-size: 16px;
+         padding: 8px 0;
+         transition: color 0.3s ease;
+         display: flex;
+         align-items: center;
+       }
+       .nav-link:hover {
+         color: #4a6cf7;
+       }
+       .nav-link i {
+         margin-right: 6px;
+         font-size: 14px;
+       }
+       /* Кнопки действий */
+       .header-actions {
+         display: flex;
+         align-items: center;
+       }
+       .btn {
+         padding: 10px 24px;
+         border-radius: 6px;
+         font-weight: 600;
+         font-size: 15px;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         border: none;
+         margin-left: 12px;
+       }
+       .btn-login {
+         background-color: transparent;
+         color: #4a6cf7;
+         border: 2px solid #4a6cf7;
+       }
+       .btn-login:hover {
+         background-color: #4a6cf7;
+         color: white;
+       }
+       .btn-signup {
+         background-color: #4a6cf7;
+         color: white;
+         box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+       }
+       .btn-signup:hover {
+         background-color: #3a5ce5;
+         transform: translateY(-2px);
+         box-shadow: 0 6px 16px rgba(74, 108, 247, 0.4);
+       }
+       img {
+          width: 200px;
+          height: 200px;
+       }
+       .section_second {
+       max-width: 1200px;
+       margin: 0 auto;
+       display: grid;
+       grid-template-columns: repeat(3, 1fr);
+       }
+  </style>
+</head>
+<body>
+<!-- Вставка шапки (header) -->
+<!-- th:insert добавляет содержимое <header> в <div id="header"> -->
+<div th:insert="~{fragments :: header}"></div>
+<main>
+<section>
+  <h2 style="text-align: center; margin-top: 10px; margin-bottom: 10px;">Избранное</h2>
+  <div class="section_second">
+    <th:block th:each="animal : ${listAnimals}">
+      <div class="card text-white bg-dark mb-3" style="width: 18rem;">
+        <img class="card-img-top" th:src="@{'data:image/jpeg;base64,' + ${animal.photo}}">
+        <div class="card-body">
+          <h3 class="card-title">[[${animal.nickname}]]</h3>
+          <p class="card-title">Пол: [[${animal.gender}]]</p>
+          <p class="card-text">Возраст: [[${animal.age}]]</p>
+          <div style="display: flex; justify-content: space-around;">
+            <a th:href="@{'/animals/oneCard/' + ${animal.id}}" class="btn btn-primary">Подробнее</a>
+            <a th:href="@{'/myCard/delAnimal/' + ${animal.id}}" class="btn btn-primary">Удалить</a>
+          </div>
+        </div>
+      </div>
+    </th:block>
+  </div>
+  <div th:if = "${totalPages > 1}">
+    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">
+      <div>
+        Всего: [[${totalItems}]]
+      </div>
+      <div>
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+      </div>
+      <div>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>
+        <span th:unless="${currentPage < totalPages}">Следующая</span>
+      </div>
+      <div>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>
+        <span th:unless="${currentPage < totalPages}">Предыдущая</span>
+      </div>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <a th:href="@{/animals}">Вернуться обратно</a>
+  </div>
+</section>
+</main>
+<!-- подключение скриптов bootstrap -->
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

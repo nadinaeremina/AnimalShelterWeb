@@ -148,6 +148,10 @@ public class Animal {
         return type.getTitle();
     }
 
+    public String getTypeToString() {
+        return type.toString();
+    }
+
     public String getBreed() {
         return type.getBreed();
     }
@@ -172,8 +176,6 @@ public class Animal {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
-
 
     public boolean isUser (User user) {
         if (user == null) {

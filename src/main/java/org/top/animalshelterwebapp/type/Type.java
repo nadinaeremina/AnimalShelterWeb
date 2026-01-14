@@ -53,4 +53,9 @@ public class Type {
     public String getBreed() {
         return breed;
     }
+
+    @Override
+    public String toString() {
+        return title + ", " + breed;
+    }
 }

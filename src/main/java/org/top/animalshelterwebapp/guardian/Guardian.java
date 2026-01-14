@@ -67,6 +67,6 @@ public class Guardian {
 
     @Override
     public String toString() {
-        return lastName + " " + firstName + ", " + number;
+        return lastName + " " + firstName + ", \n" + number;
     }
 }

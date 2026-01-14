@@ -15394,9 +15394,22 @@ footer .row {
                 </h1>
 
                 <div class="home-content__buttons">
-                    <a href="#contact" class="smoothscroll btn btn--stroke">Наши питомцы</a>
+                    <a href="#animals" class="smoothscroll btn btn--stroke">Наши питомцы</a>
                     <a href="#about" class="smoothscroll btn btn--stroke">Войти</a>
                 </div>
+
+                <!-- <div class="header-actions">-->
+                    <!--                <button class="btn btn-login">-->
+                    <!--                    <a th:href="@{/auth}" class="btn-text">-->
+                    <!--                        <i class="fas fa-sign-in-alt"></i> Войти-->
+                    <!--                    </a>-->
+                    <!--                </button>-->
+                    <!--                <button class="btn btn-login">-->
+                    <!--                    <a th:href="@{/register}" class="fas fa-user-plus">-->
+                    <!--                        <i class="btn-text"></i> Регистрация-->
+                    <!--                    </a>-->
+                    <!--                </button>-->
+                    <!--            </div>-->
 
             </div>
 
@@ -15408,27 +15421,29 @@ footer .row {
 
             <div class="home-content__line"></div>
 
-        </div> <!-- end home-content -->
-<!--        <ul class="home-social">-->
-<!--            <li>-->
-<!--                <a href="#0"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span>Facebook</span></a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#0"><i class="fa-brands fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#0"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#0"><i class="fa-brands fa-behance" aria-hidden="true"></i><span>Behance</span></a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--                <a href="#0"><i class="fa-brands fa-dribbble" aria-hidden="true"></i><span>Dribbble</span></a>-->
-<!--            </li>-->
-<!--        </ul>-->
+        </div>
+        <!-- end home-content -->
+
+        <ul class="home-social">-->
+            <li>
+                <a href="#0"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span>Facebook</span></a>
+            </li>
+            <li>
+               <a href="#0"><i class="fa-brands fa-twitter" aria-hidden="true"></i><span>Twiiter</span></a>
+            </li>
+            <li>
+               <a href="#0"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span>Instagram</span></a>
+            </li>
+            <li>--><a href="#0"><i class="fa-brands fa-behance" aria-hidden="true"></i><span>Behance</span></a>
+            </li>
+            <li>
+                <a href="#0"><i class="fa-brands fa-dribbble" aria-hidden="true"></i><span>Dribbble</span></a>
+            </li>
+        </ul>
         <!-- end home-social -->
 
-    </section> <!-- end s-home -->
+    </section>
+    <!-- end s-home -->
 
 
     <!-- about
@@ -15638,6 +15653,9 @@ footer .row {
                 </div> <!-- end clients -->
             </div> <!-- end col-full -->
         </div> <!-- end clients-outer -->
+        <div style="text-align: center;">
+            <a class="subhead" th:href="@{/animals}">Перейти к списку всех питомцев</a>
+        </div>
 
         <div class="row clients-testimonials" data-animate="fade-up">
             <div class="col-full">
