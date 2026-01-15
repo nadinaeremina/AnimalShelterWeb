@@ -130,6 +130,6 @@ public class AnimalController {
             }
         }
         model.addAttribute("listAnimals", uniqueAnimalList);
-        return "sorted_animals";
+        return "animals";
     }
 }
