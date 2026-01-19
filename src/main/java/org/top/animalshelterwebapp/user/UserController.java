@@ -15,6 +15,7 @@ import org.top.animalshelterwebapp.animal.Animal;
 import org.top.animalshelterwebapp.animal.AnimalNotFoundException;
 import org.top.animalshelterwebapp.animal.AnimalService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +49,7 @@ public class UserController {
 
     // регистрация пользователя в БД
     @PostMapping("/register-user")
-    public String registerUser(User user, Model model, RedirectAttributes ra) {
+    public String registerUser(User user, Model model, RedirectAttributes ra, Principal principal) {
 
         User newUser = new User();
         newUser.setLogin(user.getLogin());
@@ -59,6 +60,7 @@ public class UserController {
         if (!userService.isExistByLogin(user)) {
             userService.save(newUser);
             ra.addFlashAttribute("success", "Вы успешно зарегистрированы!");
+            model.addAttribute("showButton", false); // Скрыть кнопку
             return "redirect:/delayed-redirect";
         } else {
             model.addAttribute("message", "Такой логин уже существует! " +

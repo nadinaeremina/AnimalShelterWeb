@@ -57,6 +57,22 @@ public class AnimalController {
     @GetMapping("/animals")
     public String showList(Model model, RedirectAttributes ra) {
         uniqueAnimalList = null;
+
+        List<City> listCities = cityService.listAll();
+        List<Type> listTypes = typeService.listAll();
+
+        List<String> animalTitles = new ArrayList<>();
+        for (Type type : listTypes) {
+            animalTitles.add(type.getTitle());
+        }
+
+        Set<String> set = new HashSet<String>(animalTitles);
+        List<String> uniqueAnimalTitles = new ArrayList<String>(set);
+
+        model.addAttribute("animalSortData", new AnimalSortData());
+        model.addAttribute("listCities", listCities);
+        model.addAttribute("listTypes", uniqueAnimalTitles);
+
         try {
             List<Animal> listAnimals = animalService.listAll();
             model.addAttribute("listAnimals", listAnimals);
@@ -71,8 +87,7 @@ public class AnimalController {
         try {
             Animal currentAnimal = animalService.get(id);
             model.addAttribute("currentAnimal", currentAnimal);
-            model.addAttribute("pageTitle",
-                    "Editing a pet with ID: " + id + ":");
+            model.addAttribute("pageTitle", "Editing a pet with ID: " + id + ":");
             return "current_animal";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
@@ -85,8 +100,7 @@ public class AnimalController {
         try {
             Animal currentAnimal = animalService.get(id);
             model.addAttribute("currentAnimal", currentAnimal);
-            model.addAttribute("pageTitle",
-                    "Editing a pet with ID: " + id + ":");
+            model.addAttribute("pageTitle", "Editing a pet with ID: " + id + ":");
             return "oneCard_animal";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
@@ -130,6 +144,7 @@ public class AnimalController {
             }
         }
         model.addAttribute("listAnimals", uniqueAnimalList);
+        model.addAttribute("uniqueAnimalList", uniqueAnimalList);
         return "animals";
     }
 }

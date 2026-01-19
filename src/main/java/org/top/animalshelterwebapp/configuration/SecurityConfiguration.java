@@ -64,8 +64,15 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll()
                 // разрешать зайти на форму логина, форма логина доступна всем
         ).formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/"))
-                .csrf(AbstractHttpConfigurer::disable);;
-
+                .csrf(AbstractHttpConfigurer::disable)
+            // <<< Настройка выхода (logout) >>>
+            .logout(logout -> logout
+                        .logoutUrl("/logout") // URL, по которому будет происходить выход
+                        .logoutSuccessUrl("/") // Страница после успешного выхода
+                        .permitAll() // Разрешаем всем доступ к URL выхода
+                // .invalidateHttpSession(true) // Опционально: инвалидировать сессию
+                // .deleteCookies("JSESSIONID") // Опционально: удалять куки
+        );
         // сборка конфига защиты
         return http.build();
     }

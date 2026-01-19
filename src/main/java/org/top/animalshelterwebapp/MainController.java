@@ -62,6 +62,7 @@ public class MainController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("showButton", false); // Скрыть кнопку
         if (object.equals("animals")) {
             Page<Animal> page = animalService.findPaginated(pageNumber, pageSize, sortField, sortDir);
             List<Animal> listAnimals = page.getContent();

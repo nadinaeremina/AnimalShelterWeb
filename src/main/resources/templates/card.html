@@ -250,6 +250,36 @@
         background-color: #8b5cf6;
     }
 
+    .main-button {
+            position: relative;
+            padding: 20px 45px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: white;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .main-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(106, 17, 203, 0.5);
+        }
+
+        .main-button:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
     .action-button {
         display: inline-flex;
         align-items: center;
@@ -419,9 +449,10 @@
       </div>
     </div>
   </div>
-  <div style="display: flex; justify-content: center; align-items: center;">
-    <a th:href="@{/animals}">Вернуться к списку животных</a>
-  </div>
+  <button class="main-button">
+    <i class="fas fa-edit"></i>
+    <a th:href="@{/animals}">Все питомцы</a>
+  </button>
 
   <footer>
     <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>
