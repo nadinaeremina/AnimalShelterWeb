@@ -45,7 +45,13 @@ public class AnimalController {
     public String showHomePage(Model model) {
         try {
             List<Animal> listAnimals = animalService.listAll();
-            List<Animal> firstSix = listAnimals.subList(0, 6);
+            List<Animal> firstSix = new ArrayList<>();
+            firstSix.add(listAnimals.get(0));
+            firstSix.add(listAnimals.get(2));
+            firstSix.add(listAnimals.get(1));
+            firstSix.add(listAnimals.get(7));
+            firstSix.add(listAnimals.get(5));
+            firstSix.add(listAnimals.get(8));
             model.addAttribute("firstSix", firstSix);
             model.addAttribute("listAnimals", listAnimals);
         } catch (Exception ex) {

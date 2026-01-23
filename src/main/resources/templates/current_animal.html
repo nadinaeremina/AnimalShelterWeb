@@ -14,16 +14,21 @@
     }
 
     body {
-        background-color: #ffffff;
+        background-color: #e6e6e6;;
         color: #333;
         line-height: 1.6;
         padding: 20px 20px;
         min-height: 100vh;
     }
 
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
     .container {
         max-width: 1400px;
-        margin: 0 auto;
+        margin: 100px auto;
 <!--        padding: 20px;-->
     }
 
@@ -60,7 +65,7 @@
 <!--    }-->
 
     .card {
-        max-width: 500px;
+        max-width: 800px;
         margin: 0 auto 10px;
         background: linear-gradient(145deg, #1a1a1a, #222222);
         color: #fff;
@@ -69,7 +74,7 @@
         box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         display: flex;
-        flex-direction: column;
+<!--        flex-direction: column;-->
         position: relative;
     }
 
@@ -80,6 +85,7 @@
 
     .card-image {
         height: 350px;
+        width: 900px;
         overflow: hidden;
         position: relative;
     }
@@ -290,6 +296,51 @@
         font-size: 0.9rem;
     }
 
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100px;
+        position: relative;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    /* Кнопки навигации */
+    .nav-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 6px 12px;
+        background: linear-gradient(135deg, #4a6fa5, #3a5985);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 400;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        min-width: 100px;
+    }
+
+    .nav-button:hover:not(:disabled) {
+        background: linear-gradient(135deg, #3a5985, #2a4875);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(74, 111, 165, 0.3);
+    }
+
+    .nav-button:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    .nav-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #a0aec0;
+    }
+
     /* Адаптивность */
     @media (max-width: 1200px) {
         .cards-grid {
@@ -344,7 +395,7 @@
       <div class="card">
         <div class="card-image">
           <img th:src="@{'data:image/jpeg;base64,' + ${currentAnimal.photo}}" alt="Нет фото">
-          <div class="animal-tag">[[${currentAnimal.getType()}]]</div>
+<!--          <div class="animal-tag">[[${currentAnimal.getType()}]]</div>-->
         </div>
         <div class="card-content">
           <div class="card-header">
@@ -372,7 +423,10 @@
             </div>
             <div class="info-item">
               <span class="info-label">Информация об опекуне:</span>
-              <span class="info-value">[[${currentAnimal.getGuardianName()}]]</span>
+              <span th:utext="${#strings.replace(currentAnimal.getGuardianName(), '', '<br>')}"
+                    class="info-value" style="white-space: pre-line" th:text="${currentAnimal.getGuardianName()}">
+                [[${currentAnimal.getGuardianName()}]]
+              </span>
             </div>
           </div>
 
@@ -386,12 +440,23 @@
         </div>
       </div>
 
-  <div style="display: flex; justify-content: center; align-items: center;">
-    <a th:href="@{/animals}">Перейти к списку питомцев</a>
+<!--  <div style="display: flex; justify-content: center; align-items: center;">-->
+<!--    <a th:href="@{/animals}">Перейти к списку питомцев</a>-->
+<!--  </div>-->
+
+  <div class="button-container">
+    <button class="nav-button prev">
+      <i class="fas fa-arrow-left"></i>
+      <a th:href="@{/animals}">Перейти к списку питомцев</a>
+    </button>
+<!--    <button th:if="${uniqueAnimalList} == null" class="nav-button next" id="openFormButton">-->
+<!--      <span>Выбрать по параметрам</span>-->
+<!--      <i class="fas fa-arrow-right"></i>-->
+<!--    </button>-->
   </div>
 
   <footer>
-    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>
+<!--    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>-->
   </footer>
 </div>
 

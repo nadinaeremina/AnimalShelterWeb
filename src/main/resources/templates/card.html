@@ -251,34 +251,34 @@
     }
 
     .main-button {
-            position: relative;
-            padding: 20px 45px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: white;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            border: none;
-            border-radius: 60px;
-            cursor: pointer;
-            overflow: hidden;
-            z-index: 10;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
+        position: relative;
+        padding: 20px 45px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: white;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        border: none;
+        border-radius: 60px;
+        cursor: pointer;
+        overflow: hidden;
+        z-index: 10;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 30px rgba(106, 17, 203, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
 
-        .main-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(106, 17, 203, 0.5);
-        }
+    .main-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 35px rgba(106, 17, 203, 0.5);
+    }
 
-        .main-button:active {
-            transform: translateY(-2px) scale(0.98);
-        }
+    .main-button:active {
+        transform: translateY(-2px) scale(0.98);
+    }
 
     .action-button {
         display: inline-flex;
@@ -425,39 +425,121 @@
     </th:block>
   </div>
 
-  <div th:if = "${totalPages > 1}">
-    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">
-      <div>
-        Всего: [[${totalItems}]]
-      </div>
-      <div>
-        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +
-             ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-        </span>
-      </div>
-      <div>
+<!--  <div th:if = "${totalPages > 1}">-->
+<!--    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">-->
+<!--      <div>-->
+<!--        Всего: [[${totalItems}]]-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +-->
+<!--             ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
+<!--          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
+<!--        </span>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +-->
+<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>-->
+<!--        <span th:unless="${currentPage < totalPages}">Следующая</span>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +-->
+<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>-->
+<!--        <span th:unless="${currentPage < totalPages}">Предыдущая</span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <!-- В вашем animals.html шаблоне -->
+  <div class="pagination-container" th:if="${totalPages > 1}">
+    <!--    &lt;!&ndash; Информация о количестве &ndash;&gt;-->
+    <!--    <div class="pagination-total">-->
+    <!--      Всего: <strong th:text="${totalItems}">0</strong>-->
+    <!--    </div>-->
+
+    <!-- Основная пагинация -->
+    <ul class="pagination">
+      <!-- Предыдущая страница -->
+      <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled' : ''">
+        <!--        <a th:if="${currentPage > 0}" th:href="@{/animals(page=${currentPage - 1})}"-->
+        <a th:if="${currentPage <= totalPages}" th:href="@{'/page/' + ${currentPage-1} + '/animals' + '?sortField=' +
+                    ${sortField} + '&sortDir=' + ${sortDir}}"
+           class="page-link"
+           title="Предыдущая страница">
+          <i class="fas fa-chevron-left"></i>
+        </a>
+        <span th:unless="${currentPage <= totalPages}" class="page-link">
+        <i class="fas fa-chevron-left"></i>
+      </span>
+      </li>
+
+      <!-- Первая страница -->
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'active' : ''">
+        <a th:href="@{'/page/' + 1 + '/animals' + '?sortField=' +
+             ${sortField} + '&sortDir=' + ${sortDir}}" class="page-link">1</a>
+      </li>
+
+      <!-- Динамические страницы -->
+      <th:block th:if="${totalPages > 1}">
+        <!-- Показываем страницы вокруг текущей -->
+        <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+          <!-- Показываем только ближайшие 2 страницы с каждой стороны -->
+          <li th:if="${(i >= currentPage) and (i <= currentPage) and (i > 0) and (i < totalPages)}"
+              th:classappend="${currentPage == i} ? 'active' : ''"
+              class="page-item">
+            <a th:if="${currentPage != i}"
+               th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+               class="page-link"
+               th:text="${i}"></a>
+          </li>
+
+          <!-- Троеточие если есть пропуск -->
+          <li th:if="${i == currentPage - 2 or i == currentPage + 2}"
+              class="page-item ellipsis">
+            <span class="page-link">...</span>
+          </li>
+        </th:block>
+
+        <!-- Последняя страница -->
+        <li th:if="${totalPages > 1}"
+            th:classappend="${currentPage == totalPages} ? 'active' : ''"
+            class="page-item">
+          <a th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
+             class="page-link"
+             th:text="${totalPages}"></a>
+        </li>
+      </th:block>
+
+      <!-- Следующая страница -->
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled' : ''">
+        <!--        <a th:if="${currentPage < totalPages - 1}" th:href="@{/animals(page=${currentPage + 1})}"-->
         <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +
-                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>
-        <span th:unless="${currentPage < totalPages}">Следующая</span>
-      </div>
-      <div>
-        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +
-                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>
-        <span th:unless="${currentPage < totalPages}">Предыдущая</span>
-      </div>
+                    ${sortField} + '&sortDir=' + ${sortDir}}"
+           class="page-link"
+           title="Следующая страница">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <span th:unless="${currentPage < totalPages}" class="page-link">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+      </li>
+    </ul>
+
+    <!-- Индикатор текущей страницы -->
+    <div class="page-indicator">
+      Страница <span class="current-page" th:text="${currentPage}">1</span> из <span th:text="${totalPages}">1</span>
     </div>
-  </div>
+
+</div>
+
   <button class="main-button">
     <i class="fas fa-edit"></i>
     <a th:href="@{/animals}">Все питомцы</a>
   </button>
 
   <footer>
-    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>
+    <!--    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>-->
   </footer>
-</div>
 
 <script>
   // Анимация появления карточек
