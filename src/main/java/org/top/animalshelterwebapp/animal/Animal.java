@@ -186,4 +186,12 @@ public class Animal {
         }
         return users.contains(user);
     }
+
+    public Boolean getReserve() {
+        return reserve;
+    }
+
+    public void setReserve(Boolean reserve) {
+        this.reserve = reserve;
+    }
 }

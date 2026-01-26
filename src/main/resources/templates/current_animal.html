@@ -403,8 +403,11 @@
               <h3 class="animal-name">[[${currentAnimal.nickname}]]</h3>
               <p class="animal-type">[[${currentAnimal.getTypeToString()}]]</p>
             </div>
-            <div class="animal-gender gender-female">
+            <div th:if="${currentAnimal.getGender() == 'Ж'}" class="animal-gender gender-female">
               <i class="fas fa-venus"></i>
+            </div>
+            <div th:unless="${currentAnimal.getGender() == 'Ж'}" class="animal-gender gender-male">
+              <i class="fas fa-mars"></i>
             </div>
           </div>
 
@@ -433,8 +436,14 @@
           <p class="animal-character">[[${currentAnimal.description}]]</p>
 
           <div class="card-footer">
-            <div class="animal-status status-available">
-              <div class="status-dot"></div>Ищет дом</div>
+            <div th:if="${currentAnimal.getReserve() == false}" class="animal-status status-available">
+              <div class="status-dot"></div>
+              Ищет дом
+            </div>
+            <div th:unless="${currentAnimal.getReserve() == false}" class="animal-status status-reserved">
+              <div class="status-dot"></div>
+              На брони
+            </div>
             <a th:href="@{'/myCard/addAnimal/' + ${currentAnimal.id}}" class="action-button"><i class="fas fa-heart"></i>Добавить в избранное</a>
           </div>
         </div>

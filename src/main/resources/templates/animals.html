@@ -717,6 +717,7 @@
     body {
         background: #f8f9fa;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
@@ -999,8 +1000,11 @@
             <h3 class="animal-name">[[${animal.nickname}]]</h3>
             <p class="animal-type">[[${animal.getTypeToString()}]]</p>
           </div>
-          <div class="animal-gender gender-female">
+          <div th:if="${animal.getGender() == 'Ж'}" class="animal-gender gender-female">
             <i class="fas fa-venus"></i>
+          </div>
+          <div th:unless="${animal.getGender() == 'Ж'}" class="animal-gender gender-male">
+            <i class="fas fa-mars"></i>
           </div>
         </div>
 
@@ -1016,8 +1020,14 @@
         </div>
 
         <div class="card-footer">
-          <div class="animal-status status-available">
-            <div class="status-dot"></div>Ищет дом</div>
+          <div th:if="${animal.getReserve() == false}" class="animal-status status-available">
+            <div class="status-dot"></div>
+            Ищет дом
+          </div>
+          <div th:unless="${animal.getReserve() == false}" class="animal-status status-reserved">
+            <div class="status-dot"></div>
+            На брони
+          </div>
           <a th:href="@{'/animals/current/' + ${animal.id}}" class="action-button"><i class="fas fa-info-circle"></i>Узнать подробнее</a>
         </div>
       </div>
