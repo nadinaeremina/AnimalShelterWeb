@@ -30,6 +30,9 @@ public class Animal {
     @Column(name = "yearOfBirth_f", nullable = false, length = 4)
     private Integer yearOfBirth;
 
+    @Column(name = "reserve_f", nullable = false, length = 5)
+    private Boolean reserve;
+
     @Lob
     @Column(name = "photo_f", columnDefinition = "MEDIUMBLOB")
     private String photo;

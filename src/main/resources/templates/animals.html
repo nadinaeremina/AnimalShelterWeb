@@ -19,7 +19,7 @@
     }
 
     body {
-        background-color: #ffffff;
+          background-color: #e6e6e6;
         color: #333;
         line-height: 1.6;
         padding: 40px 20px;
@@ -355,6 +355,7 @@
 
         /* Стили основной кнопки */
         .main-button {
+        display: inline-block;
             position: relative;
             padding: 15px 15px;
             font-size: 1rem;
@@ -977,7 +978,7 @@
   <div class="button-container">
     <button class="nav-button prev">
       <i class="fas fa-arrow-left"></i>
-      <a th:href="@{/}">Вернуться</a>
+      <a th:href="@{/}">Вернуться на главную</a>
     </button>
     <button th:if="${uniqueAnimalList} == null" class="nav-button next" id="openFormButton">
       <span>Выбрать по параметрам</span>

@@ -14,7 +14,7 @@
     }
 
     body {
-        background-color: #ffffff;
+        background-color: #e6e6e6;
         color: #333;
         line-height: 1.6;
         padding: 40px 20px;
@@ -25,6 +25,10 @@
         max-width: 1400px;
         margin: 0 auto;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     header {
@@ -250,11 +254,15 @@
         background-color: #8b5cf6;
     }
 
+    a{
+        text-decoration: none;
+    }
+
     .main-button {
         position: relative;
-        padding: 20px 45px;
-        font-size: 1.3rem;
-        font-weight: 700;
+        padding: 10px 15px;
+        font-size: 1.1rem;
+        font-weight: 600;
         letter-spacing: 1px;
         color: white;
         background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -373,7 +381,9 @@
 <div class="container">
   <header>
     <h1>Избранные питомцы</h1>
-    <p class="subtitle">Здесь вы можете увидеть всех понравившихся Вам питомцев, запросить дополнительную информацию о каждом и связаться с рпекуном.</p>
+    <p th:if="${sizeAnimals == 0}" class="subtitle">К сожалению, на данный момент у вас нет избранных</p>
+    <p th:unless="${sizeAnimals == 0}" class="subtitle">Здесь вы можете увидеть всех понравившихся Вам питомцев,
+      запросить дополнительную информацию о каждом и связаться с опекуном.</p>
   </header>
 
   <div class="cards-grid">
@@ -425,32 +435,6 @@
     </th:block>
   </div>
 
-<!--  <div th:if = "${totalPages > 1}">-->
-<!--    <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">-->
-<!--      <div>-->
-<!--        Всего: [[${totalItems}]]-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +-->
-<!--             ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-<!--          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
-<!--        </span>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +-->
-<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>-->
-<!--        <span th:unless="${currentPage < totalPages}">Следующая</span>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +-->
-<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>-->
-<!--        <span th:unless="${currentPage < totalPages}">Предыдущая</span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <!-- В вашем animals.html шаблоне -->
   <div class="pagination-container" th:if="${totalPages > 1}">
     <!--    &lt;!&ndash; Информация о количестве &ndash;&gt;-->
     <!--    <div class="pagination-total">-->
@@ -536,8 +520,9 @@
     <i class="fas fa-edit"></i>
     <a th:href="@{/animals}">Все питомцы</a>
   </button>
+</div>
 
-  <footer>
+<footer>
     <!--    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>-->
   </footer>
 

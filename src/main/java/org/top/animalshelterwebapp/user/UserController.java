@@ -101,7 +101,9 @@ public class UserController {
         model.addAttribute("pageTitle", "Избранное");
         try {
             Set<Animal> listAnimals = animalService.showAllByUserId(user.getId());
+            Integer sizeAnimals = listAnimals.size();
             model.addAttribute("listAnimals", listAnimals);
+            model.addAttribute("sizeAnimals", sizeAnimals);
             return "card";
         } catch (AnimalNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
