@@ -31,6 +31,7 @@ public class AnimalController {
     private final MainController mainController;
     private final EntityManager entityManager;
     private List<Animal> uniqueAnimalList = null;
+    private String type = null;
 
     public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
                             MainController mainController, EntityManager entityManager) {
@@ -67,17 +68,31 @@ public class AnimalController {
         List<City> listCities = cityService.listAll();
         List<Type> listTypes = typeService.listAll();
 
+        List<String> listGenders = new ArrayList<>();
+        listGenders.add("Ж");
+        listGenders.add("М");
+
         List<String> animalTitles = new ArrayList<>();
         for (Type type : listTypes) {
             animalTitles.add(type.getTitle());
         }
 
-        Set<String> set = new HashSet<String>(animalTitles);
-        List<String> uniqueAnimalTitles = new ArrayList<String>(set);
+        Set<String> setTitles = new HashSet<String>(animalTitles);
+        List<String> uniqueAnimalTitles = new ArrayList<String>(setTitles);
+
+//        List<String> animalBreeds = new ArrayList<>();
+//        for (Type type : listTypes) {
+//            animalBreeds.add(type.getBreed());
+//        }
+//
+//        Set<String> setBreeds = new HashSet<String>(animalBreeds);
+//        List<String> uniqueAnimalBreeds = new ArrayList<String>(setBreeds);
 
         model.addAttribute("animalSortData", new AnimalSortData());
         model.addAttribute("listCities", listCities);
         model.addAttribute("listTypes", uniqueAnimalTitles);
+        model.addAttribute("listGenders", listGenders);
+//        model.addAttribute("listBreeds", uniqueAnimalBreeds);
 
         try {
             List<Animal> listAnimals = animalService.listAll();
@@ -114,6 +129,23 @@ public class AnimalController {
         }
     }
 
+    @GetMapping("/get_type")
+    public String getBreeds(Model model) {
+        model.addAttribute("pageTitle", "Get breeds");
+        List<Type> listTypes = typeService.listAll();
+
+        List<String> animalTitles = new ArrayList<>();
+        for (Type type : listTypes) {
+            animalTitles.add(type.getTitle());
+        }
+
+        Set<String> set = new HashSet<String>(animalTitles);
+        List<String> uniqueAnimalTitles = new ArrayList<String>(set);
+
+        model.addAttribute("listTypes", uniqueAnimalTitles);
+        return "getType_form";
+    }
+
     @GetMapping("/sorting_form")
     public String sortingForm(Model model) {
         model.addAttribute("pageTitle", "Sorted Animals");
@@ -128,9 +160,15 @@ public class AnimalController {
         Set<String> set = new HashSet<String>(animalTitles);
         List<String> uniqueAnimalTitles = new ArrayList<String>(set);
 
+        List<String> uniqueAnimalBreeds = new ArrayList<>();
+        for (Type type : listTypes) {
+            uniqueAnimalBreeds.add(type.getBreed());
+        }
+
         model.addAttribute("animalSortData", new AnimalSortData());
         model.addAttribute("listCities", listCities);
         model.addAttribute("listTypes", uniqueAnimalTitles);
+        model.addAttribute("listBreeds", uniqueAnimalBreeds);
         return "sorting_form";
     }
 
@@ -141,7 +179,7 @@ public class AnimalController {
             try {
                 Specification specification = new Specification(entityManager);
                 List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType(),
-                        animalSortData.getCity().getTitle(), animalSortData.getAge());
+                        animalSortData.getCity().getTitle(), animalSortData.getAge(), animalSortData.getGender());
 
                 Set<Animal> set = new HashSet<Animal>(listAnimals);
                 uniqueAnimalList = new ArrayList<Animal>(set);

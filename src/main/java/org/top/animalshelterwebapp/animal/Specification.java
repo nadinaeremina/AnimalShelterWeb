@@ -16,7 +16,7 @@ public class Specification {
     public Specification(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    public List<Animal> findEmployeesByFields(String type, String city, Integer age) {
+    public List<Animal> findEmployeesByFields(String type, String city, Integer age, String gender) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Animal> query = cb.createQuery(Animal.class);
         Root<Animal> root = query.from(Animal.class);
@@ -31,6 +31,9 @@ public class Specification {
         }
         if (age != null) {
             predicates.add(cb.lessThanOrEqualTo(root.get("age"), age));
+        }
+        if (gender != null && !gender.isEmpty()) {
+            predicates.add(cb.equal(root.get("gender"), gender));
         }
 
         if (!predicates.isEmpty()) {

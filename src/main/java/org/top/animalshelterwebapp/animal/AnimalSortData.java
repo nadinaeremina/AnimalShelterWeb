@@ -8,6 +8,7 @@ public class AnimalSortData {
     private String type;
     private Integer age;
     private City city;
+    private String gender;
 
     public AnimalSortData() {}
 
@@ -33,5 +34,13 @@ public class AnimalSortData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

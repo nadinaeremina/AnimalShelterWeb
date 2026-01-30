@@ -242,11 +242,39 @@
           margin-bottom: 10px;
         }
     </style>
+    <style>
+        .form-message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .form-message--error {
+            background-color: #fff8f8;
+            border: 1px solid #ffd1d1;
+            color: #c33;
+        }
+        .form-message__header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .form-message__icon {
+            flex-shrink: 0;
+        }
+    </style>
     </head>
     <body>
     <div class="login-container">
-        <div th:if="${message}" class="alert alert-success text-center">
-            [[${message}]]
+        <div th:if="${message}" class="form-message form-message--error ">
+            <div class="form-message__header">
+                <svg class="form-message__icon" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <strong> [[${message}]]</strong>
+            </div>
+            <p>Войдите или придумайте новый логин</p>
         </div>
         <div class="login-card">
             <div class="login-header">
@@ -266,7 +294,7 @@
                     <label for="password">Придумайте пароль:</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="text" th:field="*{passwordHash}" id="password" class="form-control" placeholder="Введите пароль"
+                        <input type="password" th:field="*{passwordHash}" id="password" class="form-control" placeholder="Введите пароль"
                                name="password" required minlength="1" maxlength="45">
                     </div>
                 </div>

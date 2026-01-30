@@ -9,15 +9,181 @@
     <script>
         setTimeout(function() {
             window.location.href = "/index";
-        }, 3000); // 3000 миллисекунд = 3 секунды задержки
+        }, 5000); // 5000 миллисекунд = 3 секунды задержки
     </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .success-icon i {
+            font-size: 48px;
+            color: white;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        .confetti:nth-child(odd) {
+            background-color: #6a11cb;
+        }
+
+        .confetti:nth-child(even) {
+            background-color: #2575fc;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 10%;">
-        <div th:if="${success}" class="alert alert-success text-center" style="width: 400px;">
-            [[${success}]]
+<!--    <div style="display: flex; justify-content: center; align-items: center; margin-top: 10%;">-->
+<!--        <div th:if="${success}" class="alert alert-success text-center" style="width: 400px;">-->
+<!--            [[${success}]]-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="success-card">
+        <!-- Конфетти -->
+        <div class="confetti" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="confetti" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="confetti" style="left: 30%; animation-delay: 0.5s;"></div>
+        <div class="confetti" style="left: 40%; animation-delay: 2s;"></div>
+        <div class="confetti" style="left: 50%; animation-delay: 1.5s;"></div>
+        <div class="confetti" style="left: 60%; animation-delay: 0.8s;"></div>
+        <div class="confetti" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="confetti" style="left: 80%; animation-delay: 1.2s;"></div>
+        <div class="confetti" style="left: 90%; animation-delay: 3s;"></div>
+
+        <!-- Иконка успеха -->
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
         </div>
+
+        <!-- Заголовок -->
+        <h1>[[${success}]]</h1>
     </div>
+
+    <script>
+        // Создание дополнительного конфетти
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.success-card');
+
+            for (let i = 0; i < 15; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                card.appendChild(confetti);
+            }
+
+            // Анимация появления
+            const elements = document.querySelectorAll('.success-icon, h1, .message, .next-steps, .buttons');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
 
 <!-- подключение скриптов bootstrap -->
 <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

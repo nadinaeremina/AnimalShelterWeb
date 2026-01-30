@@ -33,9 +33,11 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(Model model, RedirectAttributes ra) {
         model.addAttribute("user", new User());
         model.addAttribute("pageTitle", "Регистрация:");
+        //ra.addFlashAttribute("success", "Вы успешно зарегистрировались!");
+        //return "redirect:/delayed-redirect";
         return "register_form";
     }
 
@@ -50,7 +52,6 @@ public class UserController {
     // регистрация пользователя в БД
     @PostMapping("/register-user")
     public String registerUser(User user, Model model, RedirectAttributes ra, Principal principal) {
-
         User newUser = new User();
         newUser.setLogin(user.getLogin());
         String passwordHash = passwordEncoder.encode(user.getPasswordHash());
@@ -63,8 +64,7 @@ public class UserController {
             model.addAttribute("showButton", false); // Скрыть кнопку
             return "redirect:/delayed-redirect";
         } else {
-            model.addAttribute("message", "Такой логин уже существует! " +
-                    "Войдите или придумайте новый логин.");
+            model.addAttribute("message", "Такой логин уже существует! ");
             return "register_form";
         }
     }

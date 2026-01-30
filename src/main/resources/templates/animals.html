@@ -985,6 +985,10 @@
       <span>Выбрать по параметрам</span>
       <i class="fas fa-arrow-right"></i>
     </button>
+    <button th:unless="${uniqueAnimalList} == null" class="nav-button next">
+      <a th:href="@{/animals}">Перейти к полному списку</a>
+      <i class="fas fa-arrow-right"></i>
+    </button>
   </div>
 
   <div class="cards-grid">
@@ -1114,25 +1118,6 @@
     <div class="page-indicator">
       Страница <span class="current-page" th:text="${currentPage}">1</span> из <span th:text="${totalPages}">1</span>
     </div>
-
-<!--    &lt;!&ndash; Кнопки навигации &ndash;&gt;-->
-<!--    <div class="pagination-nav">-->
-<!--      <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage-1} + '/animals' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"-->
-<!--         class="nav-button prev"-->
-<!--         th:classappend="${currentPage == 0} ? 'disabled' : ''"-->
-<!--         th:disabled="${currentPage == 0}">-->
-<!--        <i class="fas fa-arrow-left"></i>-->
-<!--        Предыдущая-->
-<!--      </a>-->
-
-<!--      <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"-->
-<!--         class="nav-button next"-->
-<!--         th:classappend="${currentPage == totalPages} ? 'disabled' : ''"-->
-<!--         th:disabled="${currentPage == totalPages}">-->
-<!--        Следующая-->
-<!--        <i class="fas fa-arrow-right"></i>-->
-<!--      </a>-->
-<!--    </div>-->
   </div>
 
   <!-- Форма -->
@@ -1153,7 +1138,7 @@
               <div class="form-group">
                 <label>Вид:</label>
                 <div class="input-with-icon">
-                  <i class="fas fa-globe"></i>
+                  <i class="fa-solid fa-paw"></i>
                   <select th:field="*{type}" class="form-control">
                     <th:block th:each="typeTitle : ${listTypes}">
                       <option th:value="${typeTitle}">[[${typeTitle}]]</option>
@@ -1161,24 +1146,47 @@
                   </select>
                 </div>
               </div>
+<!--              <div class="form-group">-->
+<!--                <label>Порода:</label>-->
+<!--                <div class="input-with-icon">-->
+<!--                  <i class="fa-solid fa-circle-question"></i>-->
+<!--                  <select th:field="*{type}" class="form-control">-->
+<!--                    <th:block th:each="breedTitle : ${listBreeds}">-->
+<!--                      <option th:value="${breedTitle}">[[${breedTitle}]]</option>-->
+<!--                    </th:block>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+              <div class="form-group">
+                <label>Пол:</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-mars-and-venus"></i>
+                  <select th:field="*{gender}" class="form-control">
+                    <th:block th:each="gender : ${listGenders}">
+                      <option th:value="${gender}">[[${gender}]]</option>
+                    </th:block>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Максимальный возраст::</label>
+                <div class="input-with-icon">
+                  <i class="fa-solid fa-baby-carriage"></i>
+                  <input type="number" th:field="*{age}" class="form-control" min="1" max="25"/>
+                </div>
+              </div>
               <div class="form-group">
                 <label>Город:</label>
                 <div class="input-with-icon">
-                  <i class="fas fa-globe"></i>
+                  <i class="fa-solid fa-building"></i>
                   <select th:field="*{city}" class="form-control" >
                     <th:block th:each="city : ${listCities}">
                       <option th:value="${city.id}">[[${city.title}]]</option>
                     </th:block>
                   </select>
                 </div>
-              </div>
-            </div>
-
-            <div class="form-group full-width">
-              <label>Максимальный возраст:</label>
-              <div class="input-with-icon">
-                <i class="fas fa-money-bill-wave"></i>
-                <input type="number" th:field="*{age}" class="form-control" min="1" max="25"/>
               </div>
             </div>
 
@@ -1194,46 +1202,6 @@
     </div>
   </form>
 </div>
-
-
-<!--<div th:if = "${totalPages > 1}">-->
-<!--  <div style="max-width: 800px; margin: 0 auto; display: flex; justify-content: space-around;">-->
-<!--    <div>-->
-<!--      Всего: [[${totalItems}]]-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--          <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '/animals' + '?sortField=' +-->
-<!--             ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-<!--          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
-<!--        </span>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--      <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage+1} + '/animals' + '?sortField=' +-->
-<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Следующая</a>-->
-<!--      <span th:unless="${currentPage < totalPages}">Следующая</span>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--      <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '/animals' + '?sortField=' +-->
-<!--                    ${sortField} + '&sortDir=' + ${sortDir}}">Предыдущая</a>-->
-<!--      <span th:unless="${currentPage < totalPages}">Предыдущая</span>-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <!--  <footer>-->
-  <!--    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>-->
-  <!--  </footer>-->
-<!--</div>-->
-
-<!--  &lt;!&ndash; Сообщение об успешной отправке &ndash;&gt;-->
-<!--  <div class="success-message" id="successMessage">-->
-<!--    <div class="success-icon">-->
-<!--      <i class="fas fa-check-circle"></i>-->
-<!--    </div>-->
-<!--    <h3>Данные успешно отправлены!</h3>-->
-<!--    <p>Ваша информация была получена. Мы свяжемся с вами в ближайшее время.</p>-->
-<!--    <button class="submit-button" id="closeSuccessButton">Закрыть</button>-->
-<!--  </div>-->
 
 <script>
   // Анимация появления карточек
@@ -1251,28 +1219,6 @@
           }, 100 + index * 100);
       });
 
-      // Обработка кликов по кнопкам
-<!--      document.querySelectorAll('.action-button').forEach(button => {-->
-<!--          button.addEventListener('click', function(e) {-->
-<!--              e.preventDefault();-->
-<!--              const animalName = this.closest('.card').querySelector('.animal-name').textContent;-->
-<!--              const animalType = this.closest('.card').querySelector('.animal-type').textContent;-->
-<!--              const statusElement = this.closest('.card').querySelector('.animal-status');-->
-<!--              const status = statusElement.textContent.replace(/\s+/g, ' ').trim();-->
-
-<!--              let message = `Животное: ${animalName}\nПорода: ${animalType}\nСтатус: ${status}\n\n`;-->
-
-<!--              if (this.textContent.includes('Забрать')) {-->
-<!--                  message += 'Вы выбрали этого питомца! С вами свяжутся для уточнения деталей.';-->
-<!--              } else if (this.textContent.includes('Подробнее')) {-->
-<!--                  message += 'Открывается страница с подробной информацией о питомце.';-->
-<!--              } else if (this.textContent.includes('История')) {-->
-<!--                  message += 'Этот питомец уже нашел свой дом! Здесь будет его история.';-->
-<!--              }-->
-
-<!--              alert(message);-->
-<!--          });-->
-<!--      });-->
   });
 
   // Эффект параллакса при прокрутке
@@ -1290,6 +1236,7 @@
   //////////////////////////////////////////////////////////
    // Элементы DOM
         const openFormButton = document.getElementById('openFormButton');
+        const openFullList = document.getElementById('openFullList');
         const formOverlay = document.getElementById('formOverlay');
         const closeFormButton = document.getElementById('closeFormButton');
         const cancelFormButton = document.getElementById('cancelFormButton');
