@@ -31,7 +31,7 @@ public class AnimalController {
     private final MainController mainController;
     private final EntityManager entityManager;
     private List<Animal> uniqueAnimalList = null;
-    private String type = null;
+    private boolean isEmpty;
 
     public AnimalController(AnimalService animalService, CityService cityService, TypeService typeService,
                             MainController mainController, EntityManager entityManager) {
@@ -80,19 +80,10 @@ public class AnimalController {
         Set<String> setTitles = new HashSet<String>(animalTitles);
         List<String> uniqueAnimalTitles = new ArrayList<String>(setTitles);
 
-//        List<String> animalBreeds = new ArrayList<>();
-//        for (Type type : listTypes) {
-//            animalBreeds.add(type.getBreed());
-//        }
-//
-//        Set<String> setBreeds = new HashSet<String>(animalBreeds);
-//        List<String> uniqueAnimalBreeds = new ArrayList<String>(setBreeds);
-
         model.addAttribute("animalSortData", new AnimalSortData());
         model.addAttribute("listCities", listCities);
         model.addAttribute("listTypes", uniqueAnimalTitles);
         model.addAttribute("listGenders", listGenders);
-//        model.addAttribute("listBreeds", uniqueAnimalBreeds);
 
         try {
             List<Animal> listAnimals = animalService.listAll();
@@ -160,32 +151,29 @@ public class AnimalController {
         Set<String> set = new HashSet<String>(animalTitles);
         List<String> uniqueAnimalTitles = new ArrayList<String>(set);
 
-        List<String> uniqueAnimalBreeds = new ArrayList<>();
-        for (Type type : listTypes) {
-            uniqueAnimalBreeds.add(type.getBreed());
-        }
-
         model.addAttribute("animalSortData", new AnimalSortData());
         model.addAttribute("listCities", listCities);
         model.addAttribute("listTypes", uniqueAnimalTitles);
-        model.addAttribute("listBreeds", uniqueAnimalBreeds);
         return "sorting_form";
     }
 
     @PostMapping("/sorted_animals")
     public String sortedAnimals(AnimalSortData animalSortData, RedirectAttributes ra, Model model) {
         model.addAttribute("pageTitle", "Sorted Animals");
-        if (uniqueAnimalList == null) {
-            try {
-                Specification specification = new Specification(entityManager);
-                List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType(),
-                        animalSortData.getCity().getTitle(), animalSortData.getAge(), animalSortData.getGender());
+        try {
+            Specification specification = new Specification(entityManager);
+            List<Animal> listAnimals = specification.findEmployeesByFields(animalSortData.getType(),
+                    animalSortData.getCity().getTitle(), animalSortData.getAge(), animalSortData.getGender());
 
-                Set<Animal> set = new HashSet<Animal>(listAnimals);
-                uniqueAnimalList = new ArrayList<Animal>(set);
-            } catch (Exception ex) {
-                model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
-            }
+            Set<Animal> set = new HashSet<Animal>(listAnimals);
+            uniqueAnimalList = new ArrayList<Animal>(set);
+        } catch (Exception ex) {
+            model.addAttribute("message", "К сожалению,технические проблемы. Скоро починим.");
+        }
+        if (uniqueAnimalList.isEmpty()) {
+            isEmpty = true;
+        } else {
+            isEmpty = false;
         }
         model.addAttribute("listAnimals", uniqueAnimalList);
         model.addAttribute("uniqueAnimalList", uniqueAnimalList);

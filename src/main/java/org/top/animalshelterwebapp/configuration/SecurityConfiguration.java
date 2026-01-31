@@ -52,14 +52,6 @@ public class SecurityConfiguration {
 
                 r.requestMatchers("/", "webjars/**").permitAll()
                 .requestMatchers("/my_card", "/myCard/**", "/auth").authenticated()
-
-                // здесь задаем еще и метод
-                // .requestMatchers(HttpMethod.GET, "/myCard/**", "webjars/**").authenticated()
-
-                        // здесь доступ только для админов
-                        //.requestMatchers("/my_card").hasRole("ADMIN")
-                        // значит в 'GrantedAuthority' должно быть указано ROLE_ADMIN
-
                         // всему остальному мы будем разрешать доступ
                         .anyRequest().permitAll()
                 // разрешать зайти на форму логина, форма логина доступна всем
@@ -70,8 +62,6 @@ public class SecurityConfiguration {
                         .logoutUrl("/logout") // URL, по которому будет происходить выход
                         .logoutSuccessUrl("/") // Страница после успешного выхода
                         .permitAll() // Разрешаем всем доступ к URL выхода
-                // .invalidateHttpSession(true) // Опционально: инвалидировать сессию
-                // .deleteCookies("JSESSIONID") // Опционально: удалять куки
         );
         // сборка конфига защиты
         return http.build();

@@ -45,11 +45,6 @@ public class MainController {
         return "about";
     }
 
-//    @GetMapping("/new")
-//    public String showNewPage() {
-//        return "new";
-//    }
-
     // /page/1?sortField=name&sortDir=asc
     @GetMapping("/page/{number}/{object}")
     public String findPaginated(@PathVariable("number") Integer pageNumber,

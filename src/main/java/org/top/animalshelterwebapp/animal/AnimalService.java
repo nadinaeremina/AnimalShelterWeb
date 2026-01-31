@@ -21,15 +21,10 @@ public class AnimalService {
     @Autowired
     private final AnimalRepository animalRepository;
     private final EntityManager entityManager;
-    // private final AnimalUserRepository animalUserRepository;
-
-//    @PersistenceContext
-//    private EntityManager entityManager;
 
     public AnimalService(AnimalRepository animalRepository, EntityManager entityManager) {
         this.animalRepository = animalRepository;
         this.entityManager = entityManager;
-        // this.animalUserRepository = animalUserRepository;
     }
 
     public List<Animal> listAll() {
@@ -48,14 +43,6 @@ public class AnimalService {
         animalRepository.save(animal);
     }
 
-//    public void deleteByUserIdAndAnimalId(Integer userId, Integer animalId) throws AnimalNotFoundException {
-//        Integer count = animalUserRepository.countByUserIdAndAnimalId(userId, animalId);
-//        if (count == null || count == 0) {
-//            throw new AnimalNotFoundException("Could not find any pets with ID");
-//        }
-//        animalUserRepository.deleteByUserIdAndAnimalId(userId, animalId);
-//    }
-
     public List<Animal> showAllByGuardianId(Integer id) throws GuardianNotFoundException {
         List<Animal> animals = animalRepository.findAllByGuardianId(id);
         if (animals.isEmpty()) {
@@ -72,13 +59,6 @@ public class AnimalService {
         }
         return animals;
     }
-
-//
-//        User findUser =
-//        List<Animal> animals = animalRepository.findAllByUserId(id);
-//        if (animals.isEmpty()) {
-//            throw new AnimalNotFoundException("Could not find any pets with User ID" + id);
-
 
     public Page<Animal> findPaginated(Integer pageNumber, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :

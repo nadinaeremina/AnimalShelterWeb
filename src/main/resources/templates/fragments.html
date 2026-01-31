@@ -1,73 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
-<!-- Фрагмент шапки -->
-<!--<div th:fragment="header" id="header">-->
-<!--    <header>-->
-<!--        <div class="container header-container">-->
-<!--            <div class="logo">-->
-<!--                <div class="logo-icon">-->
-<!--                    <i class="fa fa-heartbeat"></i>-->
-<!--                </div>-->
-<!--                <div class="logo-text">-->
-<!--                    <p>Приют для животных</p>-->
-<!--                    <p>"Надежда"</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <nav>-->
-<!--                <ul class="nav-menu">-->
-<!--                    <li class="nav-item">-->
-<!--                        <a th:href="@{/index}" class="nav-link">-->
-<!--                            <i class="fas fa-home"></i> Главная-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a th:href="@{/animals}" class="nav-link">-->
-<!--                            <i class="fas fa-th-large"></i> Наши питомцы-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a th:href="@{/my_card}" class="nav-link">-->
-<!--                            <i class="fas fa-info-circle"></i> Избранное-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a th:href="@{/about}" class="nav-link">-->
-<!--                            <i class="fas fa-envelope"></i> О нас-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </nav>-->
-<!--            <div class="header-actions">-->
-<!--                <button class="btn btn-login">-->
-<!--                    <a th:href="@{/auth}" class="btn-text">-->
-<!--                        <i class="fas fa-sign-in-alt"></i> Войти-->
-<!--                    </a>-->
-<!--                </button>-->
-<!--                <button class="btn btn-login">-->
-<!--                    <a th:href="@{/register}" class="fas fa-user-plus">-->
-<!--                        <i class="btn-text"></i> Регистрация-->
-<!--                    </a>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <div style="display: flex; justify-content: center; align-items: center;">-->
-<!--                <div>-->
-<!--                    <p style="font-size: 18px; margin-right: 10px;">Вы вошли как: </p>-->
-<!--                </div>-->
-<!--                <div sec:authorize="isAuthenticated()">-->
-<!--                    <p>-->
-<!--                        <th:block sec:authentication="name"> </th:block>-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--                <div sec:authorize="!isAuthenticated()">-->
-<!--                    <p th:if="${user}">-->
-<!--                        [[${user}]]-->
-<!--                    <p th:else> гость</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </header>-->
-<!--</div>-->
 
 <div th:fragment="header" id="header">
     <header class="s-header" role="banner">
@@ -79,59 +12,25 @@
         </div>
 
         <nav class="header-nav" role="navigation" aria-label="Main navigation">
-
             <a href="#0" class="header-nav__close" title="close" aria-label="Close navigation menu"><span>Закрыть</span></a>
-
             <div class="header-nav__content">
                 <h3>Навигация</h3>
-
                 <ul class="header-nav__list">
                     <li class="current"><a class="smoothscroll" href="#home">Главная</a></li>
                     <li><a class="smoothscroll" href="#about">О нас</a></li>
                     <li><a class="smoothscroll" th:href="@{/my_card}">Избранные</a></li>
-<!--                    <li><a class="smoothscroll" href="#works">Works</a></li>-->
                     <li><a class="smoothscroll" href="#animals">Наши питомцы</a></li>
                     <li><a class="smoothscroll" href="#contact">Контакты</a></li>
                 </ul>
-
-<!--                <p>Perspiciatis hic praesentium nesciunt. Et neque a dolorum <a href='#0'>voluptatem</a> porro iusto sequi veritatis libero enim. Iusto id suscipit veritatis neque reprehenderit.</p>-->
-
-<!--                <ul class="header-nav__social" aria-label="Social media links">-->
-<!--                    <li>-->
-<!--                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#" aria-label="Behance"><i class="fa-brands fa-behance" aria-hidden="true"></i></a>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--                        <a href="#" aria-label="Dribbble"><i class="fa-brands fa-dribbble" aria-hidden="true"></i></a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-
-            </div> <!-- end header-nav__content -->
-
-        </nav>  <!-- end header-nav -->
+            </div>
+        </nav>
 
         <a class="header-menu-toggle" href="#0" aria-label="Open navigation menu" aria-expanded="false">
             <span class="header-menu-text">Меню</span>
             <span class="header-menu-icon"></span>
         </a>
 
-    </header> <!-- end s-header -->
+    </header>
 </div>
-
-<!-- Фрагмент подвала -->
-<!--<div th:fragment="footer">-->
-<!--    <footer>-->
-<!--        <p>&copy; 2025 Моя Компания</p>-->
-<!--    </footer>-->
-<!--</div>-->
-
 </body>
 </html>

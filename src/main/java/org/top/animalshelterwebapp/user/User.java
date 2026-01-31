@@ -26,9 +26,6 @@ public class User {
     @Column(name="role_f", nullable = false, length = 15)
     private String role;
 
-//    @ManyToMany(mappedBy = "users") // "books" refers to the field name in the Author entity
-//    private Set<Animal> animals = new HashSet<>();
-
     // связь с сущность (таблицей) животных
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

@@ -41,13 +41,13 @@ public class UserController {
         return "register_form";
     }
 
-    @GetMapping("/auth")
-    public String auth(Model model, RedirectAttributes ra) {
-        model.addAttribute("user", new User());
-        model.addAttribute("pageTitle", "Авторизация:");
-        ra.addFlashAttribute("success", "Вы успешно авторизовались!");
-        return "redirect:/delayed-redirect";
-    }
+//    @GetMapping("/auth")
+//    public String auth(Model model, RedirectAttributes ra) {
+//        model.addAttribute("user", new User());
+//        model.addAttribute("pageTitle", "Авторизация:");
+//        ra.addFlashAttribute("success", "Вы успешно авторизовались!");
+//        return "redirect:/delayed-redirect";
+//    }
 
     // регистрация пользователя в БД
     @PostMapping("/register-user")
@@ -72,25 +72,6 @@ public class UserController {
     @GetMapping("/delayed-redirect")
     public String showDelayedPage() {
         return "delayed-page"; // Имя вашего HTML-шаблона
-    }
-
-    // авторизация пользователя
-    @PostMapping("/auth-user")
-    public String authUser(User user, RedirectAttributes ra, Model model) {
-
-        if (userService.isExistByLogin(user)) {
-            if (userService.isRightPassword(user)) {
-            ra.addFlashAttribute("message", "Вы успешно авторизованы!");
-
-            model.addAttribute("user", new User());
-
-            return "redirect:/index";
-            }
-            ra.addFlashAttribute("message", "Неверный пароль!");
-            return "redirect:/auth_form";
-        }
-        ra.addFlashAttribute("message", "Такого логина не существует!");
-        return "auth_form";
     }
 
     @GetMapping("/my_card")
@@ -154,26 +135,4 @@ public class UserController {
             return "redirect:/animals";
         }
     }
-
-    @GetMapping("/template")
-    public String delAnimalFromCard() {
-        return "template";
-    }
-
-    // регистрация пользователя в БД
-//    @PostMapping("/register-db-user")
-//    public User registerDbUser(
-//            @RequestParam String login,
-//            @RequestParam String password,
-//            @RequestParam String role) {
-//
-//        User user = new User();
-//        user.setLogin(login);
-//        user.setRole(role);
-//        String passwordHash = passwordEncoder.encode(password);
-//        user.setPasswordHash(passwordHash);
-//
-//        userService.save(user);
-//        return user;
-//    }
 }

@@ -29,40 +29,7 @@
     .container {
         max-width: 1400px;
         margin: 100px auto;
-<!--        padding: 20px;-->
     }
-
-<!--    header {-->
-<!--        text-align: center;-->
-<!--        margin-bottom: 60px;-->
-<!--    }-->
-
-<!--    h1 {-->
-<!--        font-size: 2.8rem;-->
-<!--        color: #222;-->
-<!--        margin-bottom: 15px;-->
-<!--        position: relative;-->
-<!--        display: inline-block;-->
-<!--    }-->
-
-<!--    h1:after {-->
-<!--        content: '';-->
-<!--        position: absolute;-->
-<!--        bottom: -10px;-->
-<!--        left: 50%;-->
-<!--        transform: translateX(-50%);-->
-<!--        width: 100px;-->
-<!--        height: 5px;-->
-<!--        background: linear-gradient(90deg, #4a6fa5, #3a5985);-->
-<!--        border-radius: 3px;-->
-<!--    }-->
-
-<!--    .subtitle {-->
-<!--        font-size: 1.2rem;-->
-<!--        color: #666;-->
-<!--        max-width: 700px;-->
-<!--        margin: 30px auto 0;-->
-<!--    }-->
 
     .card {
         max-width: 800px;
@@ -74,7 +41,6 @@
         box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         display: flex;
-<!--        flex-direction: column;-->
         position: relative;
     }
 
@@ -387,15 +353,10 @@
 </head>
 <body>
 <div class="container">
-<!--  <header>-->
-<!--    <h1>Наши питомцы</h1>-->
-<!--    <p class="subtitle">Здесь вы можете увидеть всех жителей нашего приюта, выбрать понравившееся животное, добавить его в избранные или напрямую связаться с опекуном.</p>-->
-<!--  </header>-->
 
       <div class="card">
         <div class="card-image">
           <img th:src="@{'data:image/jpeg;base64,' + ${currentAnimal.photo}}" alt="Нет фото">
-<!--          <div class="animal-tag">[[${currentAnimal.getType()}]]</div>-->
         </div>
         <div class="card-content">
           <div class="card-header">
@@ -449,23 +410,13 @@
         </div>
       </div>
 
-<!--  <div style="display: flex; justify-content: center; align-items: center;">-->
-<!--    <a th:href="@{/animals}">Перейти к списку питомцев</a>-->
-<!--  </div>-->
-
   <div class="button-container">
     <button class="nav-button prev">
-<!--      <i class="fas fa-arrow-left"></i>-->
       <a th:href="@{/animals}">Перейти к списку питомцев</a>
     </button>
-<!--    <button th:if="${uniqueAnimalList} == null" class="nav-button next" id="openFormButton">-->
-<!--      <span>Выбрать по параметрам</span>-->
-<!--      <i class="fas fa-arrow-right"></i>-->
-<!--    </button>-->
   </div>
 
   <footer>
-<!--    <p>Карточки животных &copy; 2023 | Все фотографии предоставлены Unsplash</p>-->
   </footer>
 </div>
 
@@ -484,29 +435,6 @@
               card.style.transform = 'translateY(0) scale(1)';
           }, 100 + index * 100);
       });
-
-      // Обработка кликов по кнопкам
-<!--      document.querySelectorAll('.action-button').forEach(button => {-->
-<!--          button.addEventListener('click', function(e) {-->
-<!--              e.preventDefault();-->
-<!--              const animalName = this.closest('.card').querySelector('.animal-name').textContent;-->
-<!--              const animalType = this.closest('.card').querySelector('.animal-type').textContent;-->
-<!--              const statusElement = this.closest('.card').querySelector('.animal-status');-->
-<!--              const status = statusElement.textContent.replace(/\s+/g, ' ').trim();-->
-
-<!--              let message = `Животное: ${animalName}\nПорода: ${animalType}\nСтатус: ${status}\n\n`;-->
-
-<!--              if (this.textContent.includes('Забрать')) {-->
-<!--                  message += 'Вы выбрали этого питомца! С вами свяжутся для уточнения деталей.';-->
-<!--              } else if (this.textContent.includes('Подробнее')) {-->
-<!--                  message += 'Открывается страница с подробной информацией о питомце.';-->
-<!--              } else if (this.textContent.includes('История')) {-->
-<!--                  message += 'Этот питомец уже нашел свой дом! Здесь будет его история.';-->
-<!--              }-->
-
-<!--              alert(message);-->
-<!--          });-->
-<!--      });-->
   });
 
   // Эффект параллакса при прокрутке
